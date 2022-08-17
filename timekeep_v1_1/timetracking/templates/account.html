@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} My account | {% endblock %}
+
+{% block content %}
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'account' %}" aria-current="page">My account</a></li>
+            </ol>
+        </nav>
+
+<div class="row">
+    <div class="col-md-8">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="img-fluid rounded float-start" width="20%" alt="...">
+    </div>
+    <div class="col-6 col-md-4">
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <p>{% firstof user.get_full_name user.username %}</p>
+        <p>{{ user.email }}</p>
+        <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" onclick="location.href='{% url 'edit_profile' %}'">Edit profile</button>
+        <button type="button" class="btn btn-danger btn-lg px-4 me-md-2" onclick="location.href='{% url 'logout' %}'">Logout</button>
+    </div>
+</div>
+{% endblock %}
