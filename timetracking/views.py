@@ -3,11 +3,12 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView, FormView
-from .models import Employee, Schedule, Manager, Userprofile
+from .models import Employee, Schedule, Manager, UserProfile
 from .forms import NewUserForm, EditProfileForm
 from django.contrib import messages
+
 
 
 # Create your views here.
@@ -78,25 +79,11 @@ def logout_request(request):
 
 @login_required
 def myaccount(request):
-    return render(request, 'account.html')
+    teams = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
+    return render(request, 'account.html', {'teams':teams})
 
 
 @login_required
-# def edit_profile(request):
-#     if request.method == 'POST':
-#         request.user.first_name = request.POST.get('first_name', '')
-#         request.user.last_name = request.POST.get('last_name', '')
-#         request.user.email = request.POST.get('email', '')
-#         request.user.save()
-#
-#
-#         messages.info(request, 'The changes was saved')
-#
-#         return redirect('account')
-#
-#     return render(request, 'edit_profile.html')
-
-
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
