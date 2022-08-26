@@ -23,6 +23,8 @@ from timetracking.views import (
                         signin,
                         myaccount,
                         edit_profile,
+                        change_password,
+                        logout_request
 )
 
 
@@ -34,6 +36,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', signup, name='signup'),
     path("login/", signin, name="login"),
+    path("logout/", logout_request, name="logout"),
     path("account/", myaccount, name="account"),
-    path("account/edit_profile", edit_profile, name="edit_profile")
+    path("account/edit_profile", edit_profile, name="edit_profile"),
+    path("account/change_password", change_password, name="change_password"),
+    path("account/teams/", include('team.urls'), name="change_password"),
+    path("projects/", include('apps.project.urls'), name="change_password"),
 ]

@@ -13,6 +13,7 @@
 </nav>
 
 <div class="row">
+    <h1>Edit Profile</h1>
     <div class="col-md-8">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="img-fluid rounded float-start" width="20%" alt="...">
     </div>
@@ -23,36 +24,13 @@
 
 <div class="row">
     <div class="col-md-8">
-        <form method="POST" action="." enctype="multipart/form-data">
+<!--        <form method="POST" action="." enctype="multipart/form-data">-->
+        <form method="POST">
             {% csrf_token %}
 
-            <div>
-                <label>First name</label>
-                <div>
-                    <input type="text" name="first_name" id="first_name" class="input"{% if request.user.first_name %} value="{{ request.user.first_name }}"{% endif %}>
-                </div>
-            </div>
-
-            <div>
-                <label>Last name</label>
-                <div>
-                    <input type="text" name="last_name" id="last_name" class="input"{% if request.user.last_name %} value="{{ request.user.last_name }}"{% endif %}>
-                </div>
-            </div>
-
-            <div>
-                <label>Email</label>
-                <div>
-                    <input type="text" name="email" id="email" class="input"{% if request.user.email %} value="{{ request.user.email }}"{% endif %}>
-                </div>
-            </div>
-
-            <div>
-
-                <div>
-                    <button>Save changes</button>
-                </div>
-            </div>
+            {{form.as_p}}
+            <button class="btn btn-success btn-lg px-4 me-md-2">Save changes</button>
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" onclick="location.href='{% url 'change_password' %}'">Change password</button>
         </form>
     </div>
 </div>

@@ -42,30 +42,6 @@
 
     <h1>My Teams</h1>
         <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {% if active_team %}
-            <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">{{ active_team.title }}</h3>
-              </div>
-
-                <div class="card-body">
-    <!--            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>-->
-    <!--            <ul class="list-unstyled mt-3 mb-4">-->
-    <!--              <li>10 users included</li>-->
-    <!--              <li>2 GB of storage</li>-->
-    <!--              <li>Email support</li>-->
-    <!--              <li>Help center access</li>-->
-    <!--            </ul>-->
-                    <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
-                    {% if active_team.created_by == request.user %}
-                        <button type="button" class="btn btn-success">Invite users</button>
-                    {% endif %}
-              </div>
-            </div>
-          </div>
-        {% endif %}
         {% for team in teams.all %}
 
             <div class="col">
@@ -83,9 +59,8 @@
     <!--              <li>Help center access</li>-->
     <!--            </ul>-->
                     <h4>{% if team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
-
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' team.id %}'">Details</button>
-                <button type="button" class="btn btn-success" onclick="location.href='{% url 'team:activate_team' team.id %}'">Activate</button>
+                <button type="button" class="btn btn-outline-primary">Details</button>
+                <button type="button" class="btn btn-success">Activate</button>
               </div>
             </div>
           </div>

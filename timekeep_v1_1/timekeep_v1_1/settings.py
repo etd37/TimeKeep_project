@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'timetracking',
     'crispy_forms',
+    'team',
+    'apps.project',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -71,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'team.context_processors.active_team'
             ],
         },
     },
@@ -127,8 +130,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'account'
+LOGOUT_REDIRECT_URL = 'home'
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
