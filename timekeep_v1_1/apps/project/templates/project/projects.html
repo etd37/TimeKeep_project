@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div id="projects-app">
+<div>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -16,73 +16,44 @@
             <div class="column is-4">
                 <h1 class="title">Projects</h1>
 
-<button @click="showAddProjectModal = !showAddProjectModal" class="btn btn-success">Add project</button>
+            <button type="button" class="btn btn-success btn-lg px-4 me-md-2" onclick="location.href='{% url 'project:add' %}'">Add project</button>
 
 
             </div>
         </div>
+<hr>
 
+<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+    {% for project in projects %}
+    <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h3 class="my-0 fw-normal">{{ project.title }}</h3>
+              </div>
 
+                <div class="card-body">
+    <!--            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>-->
+    <!--            <ul class="list-unstyled mt-3 mb-4">-->
+    <!--              <li>10 users included</li>-->
+    <!--              <li>2 GB of storage</li>-->
+    <!--              <li>Email support</li>-->
+    <!--              <li>Help center access</li>-->
+    <!--            </ul>-->
+                    <h4>Registered time: {{ project.registered_time }}</h4>
 
-        <div class="modal" :class="{'is-active': showAddProjectModal}">
-            <div class="modal-background"></div>
+<a href="{% url 'project:project' project.id %}" class="button is-success">Details</a>
+              </div>
+            </div>
+          </div>
+    {% empty %}
+        <div><p>No projects yet</p></div>
+    {% endfor %}
+</div>
 
-            <form method="post" action="." @submit="validateForm">
-                {% csrf_token %}
-
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <p class="modal-title">Add project</p>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="field">
-                            <label>Title</label>
-                            <div class="control">
-                                <input type="text" name="title" id="id_title" v-model="title" class="input">
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <footer class="modal-footer">
-                        <button class="button is-success">Submit</button>
-                        <button class="button" @click="showAddProjectModal = !showAddProjectModal">Cancel</button>
-                    </footer>
-                </div>
-            </form>
-        </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-        const ProjectsApp = {
-            data() {
-                return {
-                    showAddProjectModal: false,
-                    title: '',
-                    showError: false
-                }
-            },
-            delimiters: ['[[', ']]'],
-            methods: {
-                validateForm(e) {
-                    if (this.title) {
-                        return true
-                    }
 
-                    this.showError = true
-
-                    e.preventDefault()
-
-                    return false
-                }
-            }
-        }
-
-        Vue.createApp(ProjectsApp).mount('#projects-app')
-    </script>
 {% endblock %}
 
