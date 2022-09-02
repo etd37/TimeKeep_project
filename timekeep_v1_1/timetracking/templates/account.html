@@ -19,20 +19,20 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="100%" alt="" class="profile-img img-responsive center-block">
 
                 <div class="profile-label">
-                    <span class="label label-danger">Username: {{ user.username }}</span>
+                    <span class="label label-danger"><b>Username:</b> {{ user.username }}</span>
                 </div>
 
                 <div class="profile-label">
-                    <span class="label label-danger">Email: {{ user.email }}</span>
+                    <span class="label label-danger"><b>Email</b> {{ user.email }}</span>
                 </div>
 
                 <div class="profile-label">
-                    <span class="label label-danger">Plan: (Placeholder)</span>
+                    <span class="label label-danger"><b>Plan:</b> (Placeholder)</span>
                 </div>
 
 
                 <div class="profile-since">
-                    Member since: (Placeholder)
+                    <b>Member since:</b> {{ user.date_joined|date }}
                 </div>
 
 <!--                <div class="profile-details">-->
@@ -42,10 +42,10 @@
 <!--                        <li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span></li>-->
 <!--                    </ul>-->
 <!--                </div>-->
-
+<br>
                 <div class="profile-message-btn center-block text-center">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2" onclick="location.href='{% url 'edit_profile' %}'">Edit profile</button>
-                    <button type="button" class="btn btn-danger btn-lg px-4 me-md-2" onclick="location.href='{% url 'logout' %}?next={{request.path}}'">Logout</button>
+                    <button type="button" class="btn btn-primary px-4 me-md-2" onclick="location.href='{% url 'edit_profile' %}'">Edit profile</button>
+                    <button type="button" class="btn btn-danger px-4 me-md-2" onclick="location.href='{% url 'logout' %}?next={{request.path}}'">Logout</button>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                  <div class="profile-header">
                     <h3><span>My Teams</span></h3>
 
-                        <button type="button" class="btn btn-success btn-lg px-4 me-md-2 edit-profile" onclick="location.href='{% url 'team:add' %}'">Add team</button>
+                        <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" onclick="location.href='{% url 'team:add' %}'">Add team</button>
 
 
                 </div>

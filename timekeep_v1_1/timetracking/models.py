@@ -8,7 +8,6 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='userprofile', on_delete=models.CASCADE)
     active_team_id = models.IntegerField(default=0)
 
-
 class Employee(models.Model):
     name = models.CharField(max_length=100)
     surname = models.CharField(max_length=100)
