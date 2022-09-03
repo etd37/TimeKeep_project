@@ -11,29 +11,39 @@
             </ol>
         </nav>
 
-<!--<div class="container bootstrap snippets bootdeys">-->
+<div class="container" id="page-width">
 <div class="row" id="user-profile">
         <div class="col-lg-3 col-md-4 col-sm-4">
             <div class="main-box clearfix">
                 <h2>{% firstof user.get_full_name user.username %}</h2>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" width="100%" alt="" class="profile-img img-responsive center-block">
+                <table class="table table-borderless">
+                    <tbody>
 
-                <div class="profile-label">
-                    <span class="label label-danger"><b>Username:</b> {{ user.username }}</span>
-                </div>
+                        <tr>
+                          <th scope="row">Username: </th>
+                          <td> {{ user.username }}</td>
+                        </tr>
 
-                <div class="profile-label">
-                    <span class="label label-danger"><b>Email</b> {{ user.email }}</span>
-                </div>
+                        <tr>
+                          <th scope="row">Email: </th>
+                          <td>{{ user.email }}</td>
+                        </tr>
 
-                <div class="profile-label">
-                    <span class="label label-danger"><b>Plan:</b> (Placeholder)</span>
-                </div>
+                        <tr>
+                          <th scope="row">Plan: </th>
+                          <td>(Placeholder)</td>
+                        </tr>
+
+                        <tr>
+                          <th scope="row">Member since: </th>
+                          <td>{{ user.date_joined|date }}</td>
+                        </tr>
+
+                    </tbody>
+</table>
 
 
-                <div class="profile-since">
-                    <b>Member since:</b> {{ user.date_joined|date }}
-                </div>
 
 <!--                <div class="profile-details">-->
 <!--                    <ul class="fa-ul">-->
@@ -118,5 +128,5 @@
             </div>
         </div>
     </div>
-<!--</div>-->
+</div>
 {% endblock %}
