@@ -96,6 +96,8 @@
               </div>
             </div>
           </div>
+                    {% else %}
+                                        <p>Add team to start tracking time.</p>
         {% endif %}
         {% for team in teams.all %}
 
@@ -120,6 +122,7 @@
               </div>
             </div>
           </div>
+
         {% endfor %}
     </div>
 

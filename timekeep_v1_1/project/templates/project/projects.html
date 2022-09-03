@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load format_min %}
+
 {% block title %} My account | {% endblock %}
 
 {% block content %}
@@ -39,7 +41,7 @@
     <!--              <li>Email support</li>-->
     <!--              <li>Help center access</li>-->
     <!--            </ul>-->
-                    <h4>Registered time: {{ project.registered_time }}</h4>
+                    <h4>Registered time: {{ project.registered_time|format_minutes }}</h4>
 
 <a href="{% url 'project:project' project.id %}" class="button is-success">Details</a>
               </div>

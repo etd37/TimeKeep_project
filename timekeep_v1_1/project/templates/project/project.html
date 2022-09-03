@@ -84,7 +84,8 @@
                                     <td>{% firstof entry.created_by.get_full_name entry.created_by.username %}</td>
                                     <td>{{ entry.minutes }}</td>
                                     <td>
-
+                                        <a href="{% url 'project:edit_entry' project.id entry.id %}">Edit</a>
+                                        <a href="{% url 'project:delete_entry' project.id entry.id %}">Delete</a>
 
                                     </td>
                                 </tr>

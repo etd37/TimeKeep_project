@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'timetracking',
-    'crispy_forms',
     'team',
-    'project'
+    'project',
+    'summary',
 ]
 
 MIDDLEWARE = [

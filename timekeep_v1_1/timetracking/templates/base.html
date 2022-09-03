@@ -32,6 +32,7 @@
 
                 <li class="nav-item"><a class="nav-link active" href="{% url 'account' %}?next={{ request.path }}">{% firstof request.user.get_full_name request.user.username %}{% if active_team %} ({{ active_team.title }}){% endif %}</a></li>
               {% if active_team %}
+                <li class="nav-item"><a class="nav-link active" href="{% url 'summary:summary' %}">Overview</a></li>
                 <li class="nav-item"><a class="nav-link active" href="{% url 'project:projects' %}">Projects</a></li>
               {% endif %}
                 <li class="nav-item"><button type="button" class="btn btn-danger px-4 me-md-2" onclick="location.href='{% url 'logout' %}?next={{ request.path }}'">Logout</button></li>

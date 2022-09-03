@@ -26,7 +26,8 @@ from timetracking.views import (
     myaccount,
     edit_profile,
     change_password,
-    logout_request
+    logout_request,
+
 )
 
 urlpatterns = [
@@ -37,13 +38,14 @@ urlpatterns = [
     path('employee/', EmployeePage.as_view(), name='employee_page'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('signup/', signup, name='signup'),
-    path("login/", signin, name="login"),
-    path("logout/", logout_request, name="logout"),
-    path("account/", myaccount, name="account"),
-    path("account/edit_profile", edit_profile, name="edit_profile"),
-    path("account/change_password", change_password, name="change_password"),
-    path("account/teams/", include('team.urls'), name="change_password"),
-    path("projects/", include('project.urls'), name="change_password"),
+    path('login/', signin, name='login'),
+    path('logout/', logout_request, name='logout'),
+    path('account/', myaccount, name='account'),
+    path('account/edit_profile', edit_profile, name='edit_profile'),
+    path('account/change_password', change_password, name='change_password'),
+    path('account/teams/', include('team.urls')),
+    path('projects/', include('project.urls')),
+    path('summary/', include('summary.urls')),
     path("timetracking/timer/start_timer/", start_timer, name='start_timer'),
     path("timetracking/timer/stop_timer/", stop_timer, name='stop_timer'),
     path("timetracking/timer/discard_timer/", discard_timer, name='discard_timer'),
