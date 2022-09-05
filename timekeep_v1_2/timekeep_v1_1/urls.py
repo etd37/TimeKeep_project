@@ -21,10 +21,11 @@ from timetracking.views import (
     shop,
     signup,
     signin,
-    myaccount,
+    account,
     edit_profile,
     change_password,
     logout_request,
+    summary,
 
 )
 
@@ -36,11 +37,12 @@ urlpatterns = [
     path('signup/', signup, name='signup'),
     path('login/', signin, name='login'),
     path('logout/', logout_request, name='logout'),
-    path('account/', myaccount, name='account'),
+    path('account/', account, name='account'),
     path('account/edit_profile', edit_profile, name='edit_profile'),
     path('account/change_password', change_password, name='change_password'),
     path('account/teams/', include('team.urls')),
     path('projects/', include('project.urls')),
+    path('summary/', include('summary.urls')),
     path("timetracking/timer/start_timer/", start_timer, name='start_timer'),
     path("timetracking/timer/stop_timer/", stop_timer, name='stop_timer'),
     path("timetracking/timer/discard_timer/", discard_timer, name='discard_timer'),

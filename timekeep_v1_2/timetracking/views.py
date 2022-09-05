@@ -14,11 +14,55 @@ from django.contrib import messages
 # Create your views here.
 
 
-def home(request):
+def home1(request):
     return render(request, 'home.html')
+
+def home(request):
+    if request.method == 'POST':
+        form_type = request.POST.get('type', None)
+        if form_type == 'login':
+            login_form = AuthenticationForm(request, data=request.POST)
+            if login_form.is_valid():
+                username = login_form.cleaned_data.get('username')
+                password = login_form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user.is_active:
+                    if user.is_superuser or user.is_staff:
+                        login(request, user)
+                        return redirect('/admin/')
+                    else:
+                        login(request, user)
+                        messages.info(request, f"You are now logged in as {username}.")
+                        return redirect('summary:summary')
+                if user is not None:
+                    login(request, user)
+                    messages.info(request, f"You are now logged in as {username}.")
+                    return redirect("summary:summary")
+                else:
+                    messages.error(request, "Invalid username or password.")
+            else:
+                messages.error(request, "Invalid username or password.")
+        if form_type == 'registration':
+            registration_form = NewUserForm(request.POST)
+            if registration_form.is_valid():
+                user = registration_form.save()
+                login(request, user)
+                messages.success(request, "Registration successful.")
+                return redirect('account')
+            messages.error(request, "Unsuccessful registration. Invalid information.")
+        else:
+            messages.error(request, "Unsuccessful registration. Invalid information.")
+    else:
+        login_form = AuthenticationForm()
+        registration_form = NewUserForm()
+        context = {'login_form': login_form, 'registration_form': registration_form}
+        return render(request, 'home.html', context)
 
 def shop(request):
     return render(request, 'shop.html')
+
+def summary(request):
+    return render(request, 'summary.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -28,7 +72,7 @@ def signup(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect('home')
+            return redirect('account')
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm()
 
@@ -68,7 +112,7 @@ def logout_request(request):
     return redirect("home")
 
 @login_required
-def myaccount(request):
+def account(request):
     teams = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
     return render(request, 'account.html', {'teams':teams})
 

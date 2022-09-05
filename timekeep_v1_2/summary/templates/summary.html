@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+
+{% load format_min %}
+
+{% block title %}Summary | {% endblock %}
+
+{% block content %}
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col">-->
+<!--      <h2>Your time {% if num_days is 0 %}today{% else %}{{ date_user|date:"Y-m-d" }}{% endif %}</h2>-->
+
+<!--      {% if date_entries %}-->
+<!--        <table class="table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th scope="row">Project</th>-->
+<!--            <th scope="row">Time</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          {% for entry in date_entries %}-->
+<!--                    <tr>-->
+<!--            <td>{{ entry.project.title }}</td>-->
+<!--            <td>{{ entry.minutes|format_minutes }}</td>-->
+<!--          </tr>-->
+<!--          {% endfor %}-->
+<!--          </tbody>-->
+<!--          <tfoot>-->
+<!--            <tr>-->
+<!--              <th scope="row">Total</th>-->
+<!--              <td>{{ time_for_user_and_date|format_minutes }}</td>-->
+<!--            </tr>-->
+<!--          </tfoot>-->
+<!--        </table>-->
+<!--        {% else %}-->
+<!--      <h2>No entries today.</h2>-->
+<!--        {% endif %}-->
+
+<!--      <a href="?num_days={{ num_days|add:'1' }}">Previous</a>-->
+<!--      {% if num_days > 0 %}-->
+<!--      <a href="?num_days={{ num_days|add:'-1' }}">Next</a>-->
+<!--      {% endif %}-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col">-->
+<!--            <h2>Your time {% if user_num_months is 0 %}this month{% else %}{{ user_month|date:"Y-m" }}{% endif %}</h2>-->
+<!--      {% if time_for_user_and_month %}-->
+<!--        <table class="table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th scope="row">Project</th>-->
+<!--            <th scope="row">Time</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          {% for project in all_projects %}-->
+<!--          {% if project.time_for_user_and_project_and_month > 0 %}-->
+<!--                    <tr>-->
+<!--            <td>{{ project.title }}</td>-->
+<!--            <td>{{ project.time_for_user_and_project_and_month|format_minutes }}</td>-->
+<!--          </tr>-->
+<!--          {% endif %}-->
+<!--          {% endfor %}-->
+<!--          </tbody>-->
+<!--          <tfoot>-->
+<!--            <tr>-->
+<!--              <th scope="row">Total</th>-->
+<!--              <td>{{ time_for_user_and_month|format_minutes }}</td>-->
+<!--            </tr>-->
+<!--          </tfoot>-->
+<!--        </table>-->
+<!--        {% else %}-->
+<!--      <h2>No entries this month.</h2>-->
+<!--        {% endif %}-->
+
+<!--      <a href="?user_num_months={{ user_num_months|add:'1' }}">Previous</a>-->
+<!--      {% if user_num_months > 0 %}-->
+<!--      <a href="?user_num_months={{ user_num_months|add:'-1' }}">Next</a>-->
+<!--      {% endif %}-->
+<!--    </div>-->
+<!--    <div class="w-100"></div>-->
+
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--   {% if request.user == team.created_by %}-->
+
+<!--    <div class="col">-->
+<!--      <h2>Your team {% if team_num_months is 0 %}this month{% else %}{{ team_month|date:"Y-m" }}{% endif %}</h2>-->
+<!--      {% if time_for_team_and_month > 0 %}-->
+<!--        <table class="table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th scope="row">Name</th>-->
+<!--            <th scope="row">Time</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+<!--          <tbody>-->
+<!--          {% for member in members %}-->
+
+<!--                    <tr>-->
+<!--            <td>{% firstof member.get_full_name member.username %}</td>-->
+<!--            <td>{{ member.time_for_user_and_team_month|format_minutes }}</td>-->
+<!--          </tr>-->
+<!--          {% endfor %}-->
+
+
+<!--          </tbody>-->
+
+<!--        </table>-->
+<!--        {% else %}-->
+<!--      <h2>No registered time for this team this month.</h2>-->
+<!--        {% endif %}-->
+<!--            <a href="?team_num_months={{ team_num_months|add:'1' }}">Previous</a>-->
+<!--      {% if team_num_months > 0 %}-->
+<!--      <a href="?team_num_months={{ team_num_months|add:'-1' }}">Next</a>-->
+<!--    </div>-->
+<!--    {% endif %}-->
+<!--    {% endif %}-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<!--<div class="container">-->
+<!--  <div class="row">-->
+<!--    <div class="col">  -->
+<!--<h2 class="subtitle">Untracked entries</h2>-->
+
+
+<!--                    <table class="table is-fullwidth" style="text-align: left;">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th>Started</th>-->
+<!--                                <th>Time</th>-->
+<!--                                <th>Status</th>-->
+<!--                                <th>Add to project</th>-->
+<!--                                <th>Discard</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
+
+<!--                        <tbody>-->
+<!--                            {% for entry in untracked_entries %}-->
+<!--                                <tr>-->
+<!--                                    <td>{{ entry.created_at }}</td>-->
+<!--                                    <td>-->
+<!--                                        {% if entry.minutes == 0 %}-->
+<!--                                            {{ entry.minutes_since|format_minutes }}-->
+<!--                                        {% else %}-->
+<!--                                            {{ entry.minutes|format_minutes }}-->
+<!--                                        {% endif %}-->
+<!--                                    </td>-->
+
+<!--                                    <td>{% if entry.minutes == 0 %}In progress{% else %}Untracked{% endif %}</td>-->
+
+<!--                                    <td>-->
+<!--                                        <a href="{% url 'project:add_entry' entry.id %}">Add to project</a>-->
+
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <a href="№">Delete</a>-->
+
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                            {% endfor %}-->
+<!--                        </tbody>-->
+
+<!--                    </table>-->
+<!--</div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<div class="accordion" id="accordionPanelsStayOpenExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        Your time {% if num_days is 0 %}today{% else %}{{ date_user|date:"Y-m-d" }}{% endif %}
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div class="accordion-body">
+      {% if date_entries %}
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="row">Project</th>
+            <th scope="row">Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for entry in date_entries %}
+                    <tr>
+            <td>{{ entry.project.title }}</td>
+            <td>{{ entry.minutes|format_minutes }}</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td>{{ time_for_user_and_date|format_minutes }}</td>
+            </tr>
+          </tfoot>
+        </table>
+        {% else %}
+      <h2>No entries today.</h2>
+        {% endif %}
+
+      <a href="?num_days={{ num_days|add:'1' }}">Previous</a>
+      {% if num_days > 0 %}
+      <a href="?num_days={{ num_days|add:'-1' }}">Next</a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+        Your time {% if user_num_months is 0 %}this month{% else %}{{ user_month|date:"Y-m" }}{% endif %}
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+      <div class="accordion-body">
+      {% if time_for_user_and_month %}
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="row">Project</th>
+            <th scope="row">Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for project in all_projects %}
+          {% if project.time_for_user_and_project_and_month > 0 %}
+                    <tr>
+            <td>{{ project.title }}</td>
+            <td>{{ project.time_for_user_and_project_and_month|format_minutes }}</td>
+          </tr>
+          {% endif %}
+          {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th scope="row">Total</th>
+              <td>{{ time_for_user_and_month|format_minutes }}</td>
+            </tr>
+          </tfoot>
+        </table>
+        {% else %}
+      <h2>No entries this month.</h2>
+        {% endif %}
+
+      <a href="?user_num_months={{ user_num_months|add:'1' }}">Previous</a>
+      {% if user_num_months > 0 %}
+      <a href="?user_num_months={{ user_num_months|add:'-1' }}">Next</a>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+{% if request.user == team.created_by %}
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+        Your team {% if team_num_months is 0 %}this month{% else %}{{ team_month|date:"Y-m" }}{% endif %}
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+      <div class="accordion-body">
+   {% if request.user == team.created_by %}
+
+      {% if time_for_team_and_month > 0 %}
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="row">Name</th>
+            <th scope="row">Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for member in members %}
+
+                    <tr>
+            <td>{% firstof member.get_full_name member.username %}</td>
+            <td>{{ member.time_for_user_and_team_month|format_minutes }}</td>
+          </tr>
+          {% endfor %}
+
+
+          </tbody>
+
+        </table>
+        {% else %}
+      <h2>No registered time for this team this month.</h2>
+        {% endif %}
+            <a href="?team_num_months={{ team_num_months|add:'1' }}">Previous</a>
+      {% if team_num_months > 0 %}
+      <a href="?team_num_months={{ team_num_months|add:'-1' }}">Next</a>
+        {% endif %}
+          {% endif %}
+          {% endif %}
+      </div>
+    </div>
+  </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
+            Untracked entries
+          </button>
+        </h2>
+        <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
+          <div class="accordion-body">
+                    <table class="table is-fullwidth" style="text-align: left;">
+                        <thead>
+                            <tr>
+                                <th>Started</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Add to project</th>
+                                <th>Discard</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for entry in untracked_entries %}
+                                <tr>
+                                    <td>{{ entry.created_at }}</td>
+                                    <td>
+                                        {% if entry.minutes == 0 %}
+                                            {{ entry.minutes_since|format_minutes }}
+                                        {% else %}
+                                            {{ entry.minutes|format_minutes }}
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{% if entry.minutes == 0 %}In progress{% else %}Untracked{% endif %}</td>
+
+                                    <td>
+                                        <a href="{% url 'project:add_entry' entry.id %}">Add to project</a>
+
+                                    </td>
+                                    <td>
+                                        <a href="№">Delete</a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+          </div>
+        </div>
+    </div>
+
+
+<!--    Spare Accordion Item-->
+
+<!--    <div class="accordion-item">-->
+<!--        <h2 class="accordion-header" id="panelsStayOpen-headingFive">-->
+<!--          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">-->
+<!--            Accordion Item #5-->
+<!--          </button>-->
+<!--        </h2>-->
+<!--        <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">-->
+<!--          <div class="accordion-body">-->
+<!--            <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.-->
+<!--          </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</div>
+{% endblock %}

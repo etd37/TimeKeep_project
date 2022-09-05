@@ -1,15 +1,6 @@
-{% extends 'base.html' %}
-
-{% block title %}Sign in | {% endblock %}
-
-{% block content %}
-
-
 
 <!--Login-->
-  <div class="container col-xxl-8 px-4 py-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6">
+
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
   <form method="POST">
     {% csrf_token %}
@@ -34,16 +25,3 @@
     <button class="btn btn-primary" type="submit">Login</button>
   </form>
   <p class="text-center">Don't have an account? <a href="/signup">Create an account</a>.</p>
-</div>
-      <div class="col-lg-6">
-        <h1 class="display-5 fw-bold lh-1 mb-3">Sign up</h1>
-        <p class="lead">Create an account and start tracking time.</p>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign up</button>
-          <button type="button" class="btn btn-outline-secondary btn-lg px-4">Learn more</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-{% endblock %}

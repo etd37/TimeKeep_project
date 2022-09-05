@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'timetracking',
     'team',
     'project',
+    'summary',
 
 ]
 
@@ -68,8 +69,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'project.context_processors.active_entry',
                 'team.context_processors.active_team',
+                'project.context_processors.active_entry',
+
             ],
         },
     },
@@ -107,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
