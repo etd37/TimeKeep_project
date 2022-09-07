@@ -15,7 +15,25 @@
 <div class="columns">
     <div class="row">
         <h1>Accept Invitation</h1>
-    </div>>
+        <form method="post" action=".">
+            {% csrf_token %}
+
+            <div class="field">
+                <label>Code (from e-mail)</label>
+
+                <div class="control">
+                    <input type="text" name="code" id="id_code" class="input">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    >
 </div>
 
 

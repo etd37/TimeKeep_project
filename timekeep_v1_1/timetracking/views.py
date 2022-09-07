@@ -183,4 +183,4 @@ def accept_invitation(request):
         else:
             messages.info(request, 'Invitation was not found')
     else:
-        return render(request, 'timetracking/accept_invitation.html')
+        return render(request, 'accept_invitation.html')
