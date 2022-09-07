@@ -91,7 +91,7 @@
                     <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
                 <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
                     {% if active_team.created_by == request.user %}
-                        <button type="button" class="btn btn-success">Invite users</button>
+                        <button type="button" class="btn btn-success" ><a href="{% url 'team:invite' %}" >Invite users</a></button>
                     {% endif %}
               </div>
             </div>
