@@ -15,6 +15,9 @@
 <div class="row">
     <h1>{{ team.title }}</h1>
 
+        {% if request.user == team.created_by %}
+            <button class="button is-primary"><a href="{% url 'team:invite' %}" >Invite users</a></button>
+        {% endif %}
     <hr>
 
     <h2>Members</h2>
@@ -22,6 +25,12 @@
     {% for member in team.members.all %}
         <p>{{ member.username }}</p>
     {% endfor %}
+
+    <h2 class="subtitle mt-6">Invitated members</h2>
+
+            {% for member in invitations %}
+                <p>{{ member.email }} - {{ member.date_sent|timesince }} ago</p>
+            {% endfor %}
 
     {% if team.created_by == request.user %}
     <hr>

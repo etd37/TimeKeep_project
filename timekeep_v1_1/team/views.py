@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
+import random
 # Create your views here.
 
-from .models import Team
+from .models import Team, Invitation
+from .mail import send_invitation, send_invitation_accepted
 
 
 @login_required
@@ -25,16 +27,19 @@ def add(request):
 
     return render(request, 'team/add.html')
 
+
 @login_required
 def team(request, team_id):
     team = get_object_or_404(Team, pk=team_id, status=Team.ACTIVE, members__in=[request.user])
+    invitations = team.invitations.filter(status=Invitation.INVITED)
 
+    return render(request, 'team/team.html', {'team': team, 'invitations': invitations})
 
-    return render(request, 'team/team.html', {'team': team})
 
 @login_required
 def edit(request):
-    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE, members__in=[request.user])
+    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE,
+                             members__in=[request.user])
 
     if request.method == 'POST':
         title = request.POST.get('title')
@@ -49,6 +54,7 @@ def edit(request):
 
     return render(request, 'team/edit.html', {'team': team})
 
+
 @login_required
 def activate_team(request, team_id):
     team = get_object_or_404(Team, pk=team_id, status=Team.ACTIVE, members__in=[request.user])
@@ -59,3 +65,28 @@ def activate_team(request, team_id):
     messages.info(request, 'The team was activated')
 
     return redirect('team:team', team_id=team.id)
+
+
+@login_required
+def invite(request):
+    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+
+        if email:
+            invitations = Invitation.objects.filter(team=team, email=email)
+
+            if not invitations:
+                code = ''.join(random.choice('abcdefghijklmnopqrstuvwxyz123456789') for i in range(8))
+                invitation = Invitation.objects.create(team=team, email=email, code=code)
+
+                messages.info(request, 'The user was invited')
+
+                send_invitation(email, code, team)
+
+                return redirect('team:team', team_id=team.id)
+            else:
+                messages.info(request, 'The users has already been invited')
+
+    return render(request, 'team/invite.html', {'team': team})

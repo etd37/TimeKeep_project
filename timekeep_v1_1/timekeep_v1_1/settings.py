@@ -29,8 +29,15 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+MAILJET_API_KEY = '959b3fd68a5c225c4efc875ebc52da9a'
+MAILJET_API_SECRET = '2ef66a449918c3b8767a2882e0a425a5'
+DEFAULT_EMAIL_FROM = 'timekeep81@gmail.com'
 
+WEBSITE_URL = 'http://127.0.0.1:8000'
+ACCEPTATION_URL = WEBSITE_URL + '/signup/'
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

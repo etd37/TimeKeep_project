@@ -1,14 +1,12 @@
 from django.contrib.auth import login, authenticate, update_session_auth_hash, logout
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView, TemplateView, FormView
-from .models import UserProfile
+from django.shortcuts import render, redirect
+
 from .forms import NewUserForm, EditProfileForm
 from django.contrib import messages
-
+from team.models import Invitation
+from team.mail import send_invitation_accepted
 
 
 # Create your views here.
@@ -48,7 +46,12 @@ def home(request):
                 user = registration_form.save()
                 login(request, user)
                 messages.success(request, "Registration successful.")
-                return redirect('account')
+                invitations = Invitation.objects.filter(email=user.email, status=Invitation.INVITED)
+
+                if invitations:
+                    return redirect('accept_invitation')
+                else:
+                    return redirect('account')
             messages.error(request, "Unsuccessful registration. Invalid information.")
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
@@ -152,3 +155,32 @@ def change_password(request):
         return render(request, 'change_password.html', args)
 
 
+@login_required
+def accept_invitation(request):
+    if request.method == 'POST':
+        code = request.POST.get('code')
+
+        invitations = Invitation.objects.filter(code=code, email=request.user.email)
+
+        if invitations:
+            invitation = invitations[0]
+            invitation.status = Invitation.ACCEPTED
+            invitation.save()
+
+            team = invitation.team
+            team.members.add(request.user)
+            team.save()
+
+            userprofile = request.user.userprofile
+            userprofile.active_team_id = team.id
+            userprofile.save()
+
+            messages.info(request, 'Invitation accepted')
+
+            send_invitation_accepted(team, invitation)
+
+            return redirect('team:team', team_id=team.id)
+        else:
+            messages.info(request, 'Invitation was not found')
+    else:
+        return render(request, 'timetracking/accept_invitation.html')
