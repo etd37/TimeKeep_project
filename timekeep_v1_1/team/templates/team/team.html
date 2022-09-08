@@ -26,7 +26,7 @@
         <p>{{ member.username }}</p>
     {% endfor %}
 
-    <h2 class="subtitle mt-6">Invitated members</h2>
+    <h2 class="subtitle mt-6">Invited members</h2>
 
             {% for member in invitations %}
                 <p>{{ member.email }} - {{ member.date_sent|timesince }} ago</p>

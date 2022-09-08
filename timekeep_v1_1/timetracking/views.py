@@ -38,23 +38,22 @@ def home(request):
                     return redirect("summary:summary")
                 else:
                     messages.error(request, "Invalid username or password.")
+
             else:
                 messages.error(request, "Invalid username or password.")
+                return render(request, 'home.html')
         if form_type == 'registration':
             registration_form = NewUserForm(request.POST)
             if registration_form.is_valid():
                 user = registration_form.save()
                 login(request, user)
                 messages.success(request, "Registration successful.")
-                invitations = Invitation.objects.filter(email=user.email, status=Invitation.INVITED)
-
-                if invitations:
-                    return redirect('accept_invitation')
-                else:
-                    return redirect('account')
+                return redirect('summary:summary')
             messages.error(request, "Unsuccessful registration. Invalid information.")
+            return render(request, 'home.html')
         else:
             messages.error(request, "Unsuccessful registration. Invalid information.")
+
     else:
         login_form = AuthenticationForm()
         registration_form = NewUserForm()
@@ -67,47 +66,6 @@ def shop(request):
 def summary(request):
     return render(request, 'summary.html')
 
-def signup(request):
-    if request.method == 'POST':
-        form = NewUserForm(request.POST)
-
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect('account')
-        messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm()
-
-    return render(request, 'registration/signup.html', context={"register_form": form})
-
-
-def signin(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user.is_active:
-                if user.is_superuser or user.is_staff:
-                    login(request, user)
-                    return redirect('/admin/')
-                else:
-                    login(request, user)
-                    messages.info(request, f"You are now logged in as {username}.")
-                    return redirect('account')
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("account")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
-
-    form = AuthenticationForm()
-    return render(request=request, template_name="registration/login.html", context={"login_form": form})
 
 def logout_request(request):
     logout(request)

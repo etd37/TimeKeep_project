@@ -19,8 +19,6 @@ from timetracking.timer import start_timer, stop_timer, discard_timer
 from timetracking.views import (
     home,
     shop,
-    signup,
-    signin,
     account,
     edit_profile,
     change_password,
@@ -33,10 +31,9 @@ from timetracking.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
+    path('home/', include('summary.urls')),
     path('shop', shop, name='shop'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('signup/', signup, name='signup'),
-    path('login/', signin, name='login'),
     path('logout/', logout_request, name='logout'),
     path('account/', account, name='account'),
     path('account/edit_profile', edit_profile, name='edit_profile'),
@@ -44,7 +41,6 @@ urlpatterns = [
     path('accept_invitation/', accept_invitation, name='accept_invitation'),
     path('account/teams/', include('team.urls')),
     path('projects/', include('project.urls')),
-    path('summary/', include('summary.urls')),
     path("timetracking/timer/start_timer/", start_timer, name='start_timer'),
     path("timetracking/timer/stop_timer/", stop_timer, name='stop_timer'),
     path("timetracking/timer/discard_timer/", discard_timer, name='discard_timer'),

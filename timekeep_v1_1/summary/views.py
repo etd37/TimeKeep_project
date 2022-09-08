@@ -3,8 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from project.models import Entry
 from team.models import Team
-from datetime import datetime, timedelta, timezone
+from project.models import Project
+
+from datetime import datetime, timedelta, timezone, date
 from dateutil.relativedelta import relativedelta
+
+
 
 from .utilities import get_time_for_user_and_date, \
     get_time_for_team_and_month, \
@@ -17,7 +21,7 @@ from .utilities import get_time_for_user_and_date, \
 @login_required
 def summary(request):
     if not request.user.userprofile.active_team_id:
-        return redirect('account')
+        return render(request, 'summary.html')
 
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     all_projects = team.projects.all()
@@ -49,6 +53,7 @@ def summary(request):
     context = {
         'team': team,
         'all_projects': all_projects,
+        'projects': all_projects[0:3],
         'date_entries': date_entries,
         'num_days': num_days,
         'date_user': date_user,
@@ -64,4 +69,10 @@ def summary(request):
 
     }
 
-    return render(request, 'summary.html', context)
+
+
+    if 'home' and not 'dashboard' in request.META['PATH_INFO']:
+        return render(request, 'summary.html', context)
+    if 'dashboard' in request.META['PATH_INFO']:
+        return render(request, 'dashboard.html', context)
+
