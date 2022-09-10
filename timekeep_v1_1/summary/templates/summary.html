@@ -5,265 +5,278 @@
 {% block title %}Summary | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#bootstrap"/>
+        </svg>
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+    </a>
+    <div class="list-group list-group-flush border-bottom scrollarea">
+        <div class="container">
+            <div class="main-body">
 
-        </div>
-        <div class="list-group list-group-flush border-bottom scrollarea">
-    <div class="container">
-    <div class="main-body">
+                <!-- Breadcrumb -->
+                <br>
+                <!-- /Breadcrumb -->
 
-          <!-- Breadcrumb -->
-<br>
-          <!-- /Breadcrumb -->
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
 
-          <div class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
+                            {% if active_team %}
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Active team</h3>
+                            </div>
 
-                  {% if active_team %}
-                  <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Active team</h3>
-              </div>
+                            <div class="card-body">
 
-                <div class="card-body">
-                <h1 class="card-title">{{ active_team.title }}</h1>
-    <!--            <ul class="list-unstyled mt-3 mb-4">-->
-    <!--              <li>10 users included</li>-->
-    <!--              <li>2 GB of storage</li>-->
-    <!--              <li>Email support</li>-->
-    <!--              <li>Help center access</li>-->
-    <!--            </ul>-->
-                    <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
-                    {% if active_team.created_by == request.user %}
-                        <button type="button" class="btn btn-success" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
-                    {% endif %}
-                </div>
-                  {% else %}
-                  <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">No Teams yet</h3>
-              </div>
+                                <h1 class="card-title">{{ active_team.title }}</h1>
+                                <!--            <ul class="list-unstyled mt-3 mb-4">-->
+                                <!--              <li>10 users included</li>-->
+                                <!--              <li>2 GB of storage</li>-->
+                                <!--              <li>Email support</li>-->
+                                <!--              <li>Help center access</li>-->
+                                <!--            </ul>-->
+
+                                <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
+                                                                                                <div class="d-flex flex-column align-items-center text-center">
+                                    <div class="mt-3">
+                                <button type="button" class="btn btn-outline-secondary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
+                                {% if active_team.created_by == request.user %}
+                                <button type="button" class="btn btn-orange" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
+                                {% endif %}
+                            </div>
+                                                                    </div>
+                                </div>
+                            {% else %}
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">No Teams yet</h3>
+                            </div>
 
 
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <div class="mt-3">
-                      <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" onclick="location.href='{% url 'team:add' %}'">Add team</button>
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'team:add' %}'">Add team</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if invitations %}
+
+
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Pending invitations</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for invitation in invitations %}
+                                <div class="col">
+                                    <div class="card mb-4 rounded-3 shadow-sm">
+                                        <div class="card-header py-3">
+                                            <h3 class="my-0 fw-normal">{{ invitation.team.title }}</h3>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            <h4>Team owner: {{ invitation.team.created_by }}</h4>
+
+                                            <a href="{% url 'accept_invitation' %}" class="btn btn-success">Accept invitation</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Card header</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <h1 class="card-title">Card Title</h1>
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    <li>10 users included</li>
+                                    <li>2 GB of storage</li>
+                                    <li>Email support</li>
+                                    <li>Help center access</li>
+                                </ul>
+                                <p>Text</p>
+                                <button type="button" class="btn btn-outline-primary" onclick="location.href='#'">Button</button>
+                                <hr>
+                            </div>
+
+
+                        </div>
+
 
                     </div>
-                  </div>
-                </div>
-                  {% endif %}
-              </div>
-                    {% if invitations %}
-
-
-                <div class="card mt-3">
-<div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Pending team invitations</h3>
-              </div>
-                    <div class="card-body">
-{% for invitation in invitations %}
-    <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">{{ invitation.team.title }}</h3>
-              </div>
-
-                <div class="card-body">
-
-                    <h4>Team owner: {{ invitation.team.created_by }}</h4>
-
-<a href="{% url 'accept_invitation' %}" class="btn btn-success">Accept invitation</a>
-              </div>
-            </div>
-          </div>
-{% endfor %}
-              </div>
-                </div>
-                {% endif %}
-                <div class="card mt-3">
-<div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Card header</h3>
-              </div>
-
-                  <div class="card-body">
-                <h1 class="card-title">Card Title</h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                  <li>10 users included</li>
-                  <li>2 GB of storage</li>
-                  <li>Email support</li>
-                  <li>Help center access</li>
-                </ul>
-                    <p>Text</p>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='#'">Button</button>
-                <hr>
-                </div>
-
-
-
-
-              </div>
-
-
-            </div>
-            <div class="col-md-8">
-              <div class="card mb-3">
-                  <div class="card-header py-3 container-fluid">
-                      <div class="row">
-                        <div class="col-md-9">
-                <h3 class="w-75 my-0 fw-normal">Latest projects</h3>
-                        </div>
-                          <div class="col-md-3 float-right">
-                      <button type="button" class="btn btn-success px-4 me-md-2 w-100" onclick="location.href='{% url 'project:add' %}'">Add project</button>
-                          </div>
-                      </div>
-
-              </div>
-                <div class="card-body">
-                    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    {% for project in projects %}
-    <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">{{ project.title }}</h3>
-              </div>
-
-                <div class="card-body">
-
-                    <h4>Registered time: {{ project.registered_time|format_minutes }}</h4>
-
-<a href="{% url 'project:project' project.id %}" class="btn btn-success">Details</a>
-              </div>
-            </div>
-          </div>
-    {% empty %}
-                  {% if active_team %}
-
-                    <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" onclick="location.href='{% url 'project:add' %}'">Add project</button>
-
-                  {% else %}
-                  <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" onclick="location.href='{% url 'team:add' %}'">Add team first</button>
-                  {% endif %}
-        {% endfor %}
-</div>
-                </div>
-              </div>
-                              <div class="card mb-3">
-                                                    <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Your time this month</h3>
-              </div>
-                <div class="card-body">
- {% if time_for_user_and_month %}
-        <table class="table">
-          <thead>
-          <tr>
-            <th scope="row">Project</th>
-            <th scope="row">Time</th>
-          </tr>
-          </thead>
-          <tbody>
-          {% for project in all_projects %}
-          {% if project.time_for_user_and_project_and_month > 0 %}
-                    <tr>
-            <td>{{ project.title }}</td>
-            <td>{{ project.time_for_user_and_project_and_month|format_minutes }}</td>
-          </tr>
-          {% endif %}
-          {% endfor %}
-          </tbody>
-          <tfoot>
-            <tr>
-              <th scope="row">Total</th>
-              <td>{{ time_for_user_and_month|format_minutes }}</td>
-            </tr>
-          </tfoot>
-        </table>
-        {% else %}
-      <h2>No entries this month.</h2>
-        {% endif %}
-                </div>
-              </div>
-                {% if untracked_entries %}
-                              <div class="card mb-3">
-                                                    <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Untracked entries</h3>
-              </div>
-                <div class="card-body">
-                    <table class="table is-fullwidth" style="text-align: left;">
-                        <thead>
-                            <tr>
-                                <th>Started</th>
-                                <th>Time</th>
-                                <th>Status</th>
-                                <th>Add to project</th>
-                                <th>Discard</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {% for entry in untracked_entries %}
-                                <tr>
-                                    <td>{{ entry.created_at }}</td>
-                                    <td>
-                                        {% if entry.minutes == 0 %}
-                                            {{ entry.minutes_since|format_minutes }}
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header py-3 container-fluid">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="w-75 my-0 fw-normal">Latest projects (Total)</h3>
+                                    </div>
+                                    <div class="col-md-3 float-right">
+                                        {% if active_team %}
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'project:add' %}'">Add project</button>
                                         {% else %}
-                                            {{ entry.minutes|format_minutes }}
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'team:add' %}'">Add team first</button>
                                         {% endif %}
-                                    </td>
 
-                                    <td>{% if entry.minutes == 0 %}In progress{% else %}Untracked{% endif %}</td>
+                                    </div>
+                                </div>
 
-                                    <td>
-                                        <a href="{% url 'project:add_entry' entry.id %}">Add to project</a>
+                            </div>
+                            <div class="card-body">
+{% if active_team.id %}
+                                {% if projects %}
+                                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
 
-                                    </td>
-                                    <td>
-                                        <a href="{% url 'project:delete_untracked_entry' entry.id %}">Delete</a>
 
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
+                                    {% for project in projects %}
+                                    <div class="col">
+                                        <div class="card mb-4 rounded-3 shadow-sm">
+                                            <div class="card-header py-3">
+                                                <h3 class="my-0 fw-semibold">{{ project.title }}</h3>
+                                            </div>
 
-                    </table>
+                                            <div class="card-body">
+
+                                                <h5>{{ project.registered_time|format_minutes }}</h5>
+
+                                                <a href="{% url 'project:project' project.id %}" class="btn btn-outline-secondary">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% endfor %}
+
+
+                                </div>
+                                {% else %}
+                                <h5>No projects yet</h5>
+                                {% endif %}
+                                {% else %}
+                                <h5>You need a team to create projects</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card mb-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Your time this month</h3>
+                            </div>
+                            <div class="card-body">
+                                {% if time_for_user_and_month %}
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="row">Project</th>
+                                        <th scope="row">Time</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for project in all_projects %}
+                                    {% if project.time_for_user_and_project_and_month > 0 %}
+                                    <tr>
+                                        <td>{{ project.title }}</td>
+                                        <td>{{ project.time_for_user_and_project_and_month|format_minutes }}</td>
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th scope="row">Total</th>
+                                        <td>{{ time_for_user_and_month|format_minutes }}</td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                                {% else %}
+                                <h5>No entries this month</h5>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if untracked_entries %}
+                        <div class="card mb-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Untracked entries</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table is-fullwidth" style="text-align: left;">
+                                    <thead>
+                                    <tr>
+                                        <th>Started</th>
+                                        <th>Time</th>
+                                        <th>Status</th>
+                                        <th>Add to project</th>
+                                        <th>Discard</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    {% for entry in untracked_entries %}
+                                    <tr>
+                                        <td>{{ entry.created_at }}</td>
+                                        <td>
+                                            {% if entry.minutes == 0 %}
+                                            {{ entry.minutes_since|format_minutes }}
+                                            {% else %}
+                                            {{ entry.minutes|format_minutes }}
+                                            {% endif %}
+                                        </td>
+
+                                        <td>{% if entry.minutes == 0 %}In progress{% else %}Untracked{% endif %}</td>
+
+                                        <td>
+                                            <a href="{% url 'project:add_entry' entry.id %}">Add to project</a>
+
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'project:delete_untracked_entry' entry.id %}">Delete</a>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                        <!--              <div class="row gutters-sm">-->
+                        <!--                <div class="col-sm-6 mb-3">-->
+                        <!--                  <div class="card h-100">-->
+                        <!--                    <div class="card-body">-->
+                        <!--                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>-->
+
+                        <!--                    </div>-->
+                        <!--                  </div>-->
+                        <!--                </div>-->
+                        <!--                <div class="col-sm-6 mb-3">-->
+                        <!--                  <div class="card h-100">-->
+                        <!--                    <div class="card-body">-->
+                        <!--                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>-->
+
+                        <!--                    </div>-->
+                        <!--                  </div>-->
+                        <!--                </div>-->
+                        <!--              </div>-->
+
+
+                    </div>
                 </div>
-              </div>
-
-                {% endif %}
-<!--              <div class="row gutters-sm">-->
-<!--                <div class="col-sm-6 mb-3">-->
-<!--                  <div class="card h-100">-->
-<!--                    <div class="card-body">-->
-<!--                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>-->
-
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--                <div class="col-sm-6 mb-3">-->
-<!--                  <div class="card h-100">-->
-<!--                    <div class="card-body">-->
-<!--                      <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>-->
-
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
-
 
             </div>
-          </div>
-
         </div>
     </div>
-        </div>
-      </div>
+</div>
 {% endblock %}

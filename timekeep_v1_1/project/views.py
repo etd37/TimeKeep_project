@@ -33,10 +33,12 @@ def project(request, project_id):
     project = get_object_or_404(Project, team=team, pk=project_id)
 
     if request.method == 'POST':
+        time = request.POST.get('time', 0)
+        h, m = time.split(':')
         hours = int(request.POST.get('hours', 0))
         minutes = int(request.POST.get('minutes', 0))
         date = '%s %s' % (request.POST.get('date'), datetime.now().time())
-        minutes_total = (hours * 60) + minutes
+        minutes_total = int(h) * 60 + int(m)
 
         entry = Entry.objects.create(team=team, project=project, minutes=minutes_total, created_by=request.user, created_at=date, is_tracked=True)
 

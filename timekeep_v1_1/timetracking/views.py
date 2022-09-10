@@ -51,7 +51,12 @@ def home(request):
                     user = registration_form.save()
                     login(request, user)
                     messages.success(request, "Registration successful.")
-                    return redirect('summary:summary')
+                    invitations = Invitation.objects.filter(email=user.email, status=Invitation.INVITED)
+
+                    if invitations:
+                        return redirect('accept_invitation')
+                    else:
+                        return redirect('summary:summary')
                 messages.error(request, "Unsuccessful registration. Invalid information.")
                 return render(request, 'home.html')
             else:

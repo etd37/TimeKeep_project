@@ -59,39 +59,41 @@
           </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" backdrop="false">
-  <div class="modal-dialog">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog vertical-align-center">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tracked time</h5>
+      <div class="modal-header modal-header-own">
+        <h3 class="modal-title" id="exampleModalLabel">Tracked time</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+
         <form method="POST">
             {% csrf_token %}
             <input name='type' value='add_proj' style='display: none'>
-            <div>
-                <label>Title</label>
+            <div class="form-floating">
                 <div>
-                    <input type="text" name="title" id="id_title">
+                    <input type="text" class="form-control form-control-lg searchbox" id="id_title" name="title" maxlength="150" placeholder="Project Title">
+
                 </div>
             </div>
 
 
 
-            <div>
-                <div>
-                    <button>Save changes</button>
-                </div>
-            </div>
-            </form>
-      </div>
+
+
+
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="submit" class="btn btn-success">Add project</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+
       </div>
+                    </form>
+
     </div>
   </div>
 </div>
+    </div>
 {% endblock %}
 
 {% block scripts %}

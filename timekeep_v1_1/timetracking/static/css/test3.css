@@ -1545,3 +1545,76 @@ a.active {
 
 text-decoration: none;
 }
+
+.btn-orange {
+  color: #e84c22;
+  background-color: #ffffff;
+  border-color: #e84c22;
+
+  letter-spacing: 0.05em;
+}
+
+.btn-orange {
+  color: #e84c22;
+  background-color: #ffffff;
+  border-color: #e84c22;
+
+  border-radius: 4;
+}
+
+.btn-orange:hover,
+.btn-orange:active,
+.btn-orange:focus,
+.btn-orange.active {
+  background: #e84c22 !important;
+  color: #ffffff !important;
+  border-color: #e84c22 !important;
+
+}
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none;
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+ max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events:all;
+}
+
+.modal-header-own {
+    color:#fff;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #212529;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+     border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+.searchbox {
+  font-size: 32px;
+  height: 60px;
+  padding: 1px 7px;
+  text-transform: capitalize; /* Capitalises first letter of each word only 'visually', value sent is as-typed */
+}
+
+.form-control:focus {
+
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 1px rgba(0, 0, 0, 0.6);
+}
