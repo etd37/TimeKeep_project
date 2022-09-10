@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from project.models import Entry
-from team.models import Team
+from team.models import Team, Invitation
 from project.models import Project
 
 from datetime import datetime, timedelta, timezone, date
@@ -24,6 +24,7 @@ def summary(request):
         return render(request, 'summary.html')
 
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+    invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
     all_projects = team.projects.all()
     members = team.members.all()
 
@@ -52,6 +53,7 @@ def summary(request):
 
     context = {
         'team': team,
+        'invitations': invitations,
         'all_projects': all_projects,
         'projects': all_projects[0:3],
         'date_entries': date_entries,

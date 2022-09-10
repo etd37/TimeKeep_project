@@ -22,15 +22,15 @@
 
 <div id="navbar-apps">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid" style=" height: 5vh">
-          <a class="navbar-brand" href="{% url 'summary:summary' %}"><strong>TimeKeep</strong></a>
+      <div class="container-fluid" style=" height: 4vh">
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'summary:summary' %}">Home</a>
+<a class="nav-link active" aria-current="page" href="{% url 'summary:summary' %}"><svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#clock"/></svg><strong>TimeKeep</strong></a>
+
             </li>
             <li class="nav-item">
-
+<a class="nav-link active" aria-current="page" href="{% url 'summary:summary' %}">Home</a>
             </li>
           </ul>
         </div>
@@ -117,16 +117,16 @@
     <main class="d-flex flex-nowrap">
       <h1 class="visually-hidden">Sidebars examples</h1>
 
-      <div id="navbar-app" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 15%; height: 93.3vh">
+      <div id="navbar-app" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 15%; height: 94.4vh">
 
 
 
         <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item" v-if="!trackingTime"><a class="btn btn-success" @click="startTimer()" role="button" aria-current="page">
+            <li class="nav-item" v-if="!trackingTime"><a class="btn btn-success w-100" @click="startTimer()" role="button" aria-current="page">
                                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#clock"/></svg>
                                         <span>Start</span>
                                     </a></li>
-                 <li class="nav-item" v-else><a class="btn btn-danger" @click="stopTimer()" role="button">
+                 <li class="nav-item" v-else><a class="btn btn-danger w-100" @click="stopTimer()" role="button"  data-bs-toggle="modal" data-bs-target="#showTrackingModal">
                                         <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#clock"/></svg>
                                         <span>[[ readableSeconds ]] (stop)</span>
                                     </a></li>
@@ -190,7 +190,7 @@
           <li>
             <a href="#" class="nav-link text-white">
               <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-              Customers
+              Placeholder
             </a>
           </li>
         </ul>
@@ -209,43 +209,36 @@
           </ul>
 
         </div>
-<div class="modal" :class="{'is-active': showTrackingModal}" style="background-color: rgba(0,0,0,0.4)">
-                <div class="modal-background"></div>
+<div class="modal fade" id="showTrackingModal" tabindex="-1" aria-labelledby="showTrackingModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="showTrackingModalLabel">Tracked time</h5>
+          </div>
 
-                <div class="modal-card">
-                    <div class="modal-card-head">
-                        <p class="modal-card-title">Tracked time</p>
-                    </div>
+          <div class="modal-body">
+              <p style="color: #000">You have tracked [[ readableSeconds ]]</p>
+          </div>
 
-                    <div class="modal-card-body">
-                        <p style="color: #000">You have tracked [[ readableSeconds ]]</p>
-                    </div>
-
-                    <footer class="modal-card-foot">
-                        <a class="btn btn-primary" @click="addToProject()" role="button">Add Time</a>
-                        <a class="btn btn-primary" @click="addLater()" role="button">Add Later</a>
-                        <a class="btn btn-danger" @click="discardTimer()" role="button">Discard</a>
-                    </footer>
-                </div>
+          <div class="modal-footer">
+              <a class="btn btn-primary" @click="addToProject()" role="button">Add Time</a>
+              <a class="btn btn-primary" @click="addLater()" role="button" data-bs-dismiss="modal">Add Later</a>
+              <a class="btn btn-danger" @click="discardTimer()" role="button" data-bs-dismiss="modal">Discard</a>
+          </div>
+      </div>
         </div>
       </div>
+      </div>
 
-      <div class="b-example-divider b-example-vr"></div>
+      <div class="b-example-divider b-example-vr" style="height: 94.4vh"></div>
+{% block content %}
 
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
-        <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-          <span class="fs-5 fw-semibold">List group</span>
-        </a>
-        <div class="list-group list-group-flush border-bottom scrollarea">
 
-            {% block content %}
+
+
+
 
             {% endblock %}
-
-        </div>
-      </div>
-
 
     </main>
 {% else %}
@@ -253,6 +246,9 @@
 
             {% endblock %}
 {% endif %}
+
+{% block content4 %}
+  {% endblock %}
             <script src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
         <script src="https://unpkg.com/vue@next"></script>
         <script>

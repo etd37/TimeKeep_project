@@ -6,19 +6,21 @@
 
 {% block content %}
 
-<div>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="{% url 'account' %}" aria-current="page">My account</a></li>
-            </ol>
-        </nav>
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+
+        </div>
 
         <div class="columns">
             <div class="column is-4">
                 <h1 class="title">Projects</h1>
 
-            <button type="button" class="btn btn-success btn-lg px-4 me-md-2" onclick="location.href='{% url 'project:add' %}'">Add project</button>
+            <button type="button" class="btn btn-success btn-lg px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Add project</button>
 
 
             </div>
@@ -53,6 +55,43 @@
 </div>
 
     </div>
+            </div>
+          </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" backdrop="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tracked time</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST">
+            {% csrf_token %}
+            <input name='type' value='add_proj' style='display: none'>
+            <div>
+                <label>Title</label>
+                <div>
+                    <input type="text" name="title" id="id_title">
+                </div>
+            </div>
+
+
+
+            <div>
+                <div>
+                    <button>Save changes</button>
+                </div>
+            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block scripts %}

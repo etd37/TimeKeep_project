@@ -12,90 +12,16 @@
 .modal.is-active {
 	display: flex
 }
-
-.modal-background {
-	background-color: rgba(10, 10, 10, .86)
+ .modal-backdrop {
+      /* bug fix - no overlay */
+      display: none;
 }
 
-.modal-card,
-.modal-content {
-	margin: 0 20px;
-	max-height: calc(100vh - 160px);
-	overflow: auto;
-	position: relative;
-	width: 100%
+.modal{
+    /* bug fix - custom overlay */
+    background-color: rgba(10,10,10,0.45);
 }
 
-@media screen and (min-width:769px) {
-
-	.modal-card,
-	.modal-content {
-		margin: 0 auto;
-		max-height: calc(100vh - 40px);
-		width: 640px
-	}
-}
-
-.modal-close {
-	background: 0 0;
-	height: 40px;
-	position: fixed;
-	right: 20px;
-	top: 20px;
-	width: 40px
-}
-
-.modal-card {
-	display: flex;
-	flex-direction: column;
-	max-height: calc(100vh - 40px);
-	overflow: hidden;
-	-ms-overflow-y: visible
-}
-
-.modal-card-foot,
-.modal-card-head {
-	align-items: center;
-	background-color: #f5f5f5;
-	display: flex;
-	flex-shrink: 0;
-	justify-content: flex-start;
-	padding: 20px;
-	position: relative
-}
-
-.modal-card-head {
-	border-bottom: 1px solid #dbdbdb;
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px
-}
-
-.modal-card-title {
-	color: #363636;
-	flex-grow: 1;
-	flex-shrink: 0;
-	font-size: 1.5rem;
-	line-height: 1
-}
-
-.modal-card-foot {
-	border-bottom-left-radius: 6px;
-	border-bottom-right-radius: 6px;
-	border-top: 1px solid #dbdbdb
-}
-
-.modal-card-foot .button:not(:last-child) {
-	margin-right: .5em
-}
-
-.modal-card-body {
-	-webkit-overflow-scrolling: touch;
-	background-color: #fff;
-	flex-grow: 1;
-	flex-shrink: 1;
-	overflow: auto;
-	padding: 20px
-}
 
 
 .navbar {
@@ -1370,7 +1296,7 @@ box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0,
 .b-example-vr {
 flex-shrink: 0;
 width: 1%;
-height: 93.3vh;
+height: 50vh;
 }
 
 .bi {
@@ -1589,7 +1515,7 @@ a {
 }
 a:hover,
 a:focus {
-	color: #2bb6a3;
+	color: black;
 }
 
 
@@ -1610,5 +1536,12 @@ textarea.form-control {
  margin: 0 auto;
 }
 
+a {
+color: black;
+text-decoration: underline;
+}
 
+a.active {
 
+text-decoration: none;
+}

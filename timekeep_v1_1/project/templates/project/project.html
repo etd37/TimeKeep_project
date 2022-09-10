@@ -1,106 +1,116 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ team.title }} | {% endblock %}
-
+{% load format_min %}
 {% block content %}
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'account' %}">My account</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</a></li>
-    </ol>
-</nav>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
-<div class="row">
-    <h1>{{ project.title }}</h1>
+    </div>
+
+    <div class="row">
+        <h1>{{ project.title }}</h1>
+
+        <hr>
+
+        <a href="{% url 'project:edit' project.id %}">Edit project</a>
+
+        <h2>Register time</h2>
+
+        <form method="post" action=".">
+            {% csrf_token %}
+            <div class="row">
+                <div class="control">
+                    <div class="select">
+                        <select name="hours">
+                            <option value="0">0h</option>
+                            {% for i in "x"|rjust:"10" %}
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}h</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control">
+                    <div class="select">
+                        <select name="minutes">
+                            <option value="0">0m</option>
+                            {% for i in "x"|rjust:"59" %}
+                            <option value="{{ forloop.counter }}">{{ forloop.counter }}m</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Date</label>
+
+                <div class="control">
+                    <input type="date" id="id_date" name="date" class="input" value="{{ today|date:'Y-m-d' }}"
+                           placeholder="yyyy-mm-dd">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <hr>
 
-    <a href="{% url 'project:edit' project.id %}">Edit project</a>
+    <h2 class="subtitle">Logged entries</h2>
 
-    <h2>Register time</h2>
+    {% if project.entries.all %}
+    <table class="table is-fullwidth" style="text-align: left;">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Time</th>
+            <th></th>
+        </tr>
+        </thead>
 
-    <form method="post" action=".">
-        {% csrf_token %}
-    <div class="row">
-        <div class="control">
-            <div class="select">
-                <select name="hours">
-                    <option value="0">0h</option>
-                    {% for i in "x"|rjust:"10" %}
-                        <option value="{{ forloop.counter }}">{{ forloop.counter }}h</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
+        <tbody>
+        {% for entry in project.entries.all %}
+        <tr>
+            <td>{{ entry.created_at }}</td>
+            <td>{% firstof entry.created_by.get_full_name entry.created_by.username %}</td>
+            <td>{{ entry.minutes|format_minutes }}</td>
+            <td>
+                <a href="{% url 'project:edit_entry' project.id entry.id %}">Edit</a>
+                <a href="{% url 'project:delete_entry' project.id entry.id %}">Delete</a>
 
-        <div class="control">
-            <div class="select">
-                <select name="minutes">
-                    <option value="0">0m</option>
-                    {% for i in "x"|rjust:"59" %}
-                        <option value="{{ forloop.counter }}">{{ forloop.counter }}m</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-    </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
 
-    <div class="field">
-        <label>Date</label>
+        <tfoot>
+        <tr>
+            <th colspan="2">Total</th>
+            <th colspan="2">{{ project.registered_time|format_minutes }}</th>
+        </tr>
+        </tfoot>
+    </table>
+    {% else %}
+    <p>No entries yet...</p>
+    {% endif %}
 
-        <div class="control">
-            <input type="date" id="id_date" name="date" class="input" value="{{ today|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
-        </div>
-    </div>
-
-        <div class="field">
-            <div class="control">
-                <button class="button is-success">Submit</button>
-            </div>
-        </div>
-    </form>
 </div>
 
-<hr>
 
-                <h2 class="subtitle">Logged entries</h2>
 
-                {% if project.entries.all %}
-                    <table class="table is-fullwidth" style="text-align: left;">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>User</th>
-                                <th>Time (minutes)</th>
-                                <th></th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            {% for entry in project.entries.all %}
-                                <tr>
-                                    <td>{{ entry.created_at }}</td>
-                                    <td>{% firstof entry.created_by.get_full_name entry.created_by.username %}</td>
-                                    <td>{{ entry.minutes }}</td>
-                                    <td>
-                                        <a href="{% url 'project:edit_entry' project.id entry.id %}">Edit</a>
-                                        <a href="{% url 'project:delete_entry' project.id entry.id %}">Delete</a>
-
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-
-                        <tfoot>
-                            <tr>
-                                <th colspan="2">Total</th>
-                                <th colspan="2">{{ project.registered_time }}</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    {% else %}
-                    <p>No entries yet...</p>
-                {% endif %}
 {% endblock %}

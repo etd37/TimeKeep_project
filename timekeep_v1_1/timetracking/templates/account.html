@@ -3,14 +3,19 @@
 {% block title %} My account | {% endblock %}
 
 {% block content %}
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
 
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                <li class="breadcrumb-item active"><a href="{% url 'account' %}" aria-current="page">My account</a></li>
-            </ol>
-        </nav>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
+        </div>
+
+        <div class="list-group list-group-flush border-bottom scrollarea">
+
+<br>
 <div class="container" id="page-width">
 <div class="row" id="user-profile">
         <div class="col-lg-3 col-md-4 col-sm-4">
@@ -91,7 +96,7 @@
                     <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
                 <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
                     {% if active_team.created_by == request.user %}
-                        <button type="button" class="btn btn-success" ><a href="{% url 'team:invite' %}" >Invite users</a></button>
+                        <button type="button" class="btn btn-success" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
                     {% endif %}
               </div>
             </div>
@@ -132,4 +137,6 @@
         </div>
     </div>
 </div>
+            </div>
+          </div>
 {% endblock %}

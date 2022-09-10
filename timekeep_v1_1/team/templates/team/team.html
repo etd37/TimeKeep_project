@@ -3,14 +3,15 @@
 {% block title %}{{ team.title }} | {% endblock %}
 
 {% block content %}
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
+<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'account' %}">My account</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'team:team' team.id %}">{{ team.title }}</a></li>
-    </ol>
-</nav>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+
+        </div>
 
 <div class="row">
     <h1>{{ team.title }}</h1>
@@ -23,7 +24,7 @@
     <h2>Members</h2>
 
     {% for member in team.members.all %}
-        <p>{{ member.username }}</p>
+        <p>{{ member.get_full_name }} ({{ member.username }})</p>
     {% endfor %}
 
     <h2 class="subtitle mt-6">Invited members</h2>
@@ -43,6 +44,8 @@
         <a href="{% url 'project:projects' %}" class="btn btn-primary">Projects</a>
     </div>
     {% endif %}
+</div>
+</div>
 </div>
 
 {% endblock %}

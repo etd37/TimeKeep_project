@@ -5,6 +5,16 @@
 {% block title %}Summary | {% endblock %}
 
 {% block content %}
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+
+        </div>
+        <div class="list-group list-group-flush border-bottom scrollarea">
     <div class="container">
     <div class="main-body">
 
@@ -51,7 +61,33 @@
                 </div>
                   {% endif %}
               </div>
+                    {% if invitations %}
 
+
+                <div class="card mt-3">
+<div class="card-header py-3">
+                <h3 class="my-0 fw-normal">Pending team invitations</h3>
+              </div>
+                    <div class="card-body">
+{% for invitation in invitations %}
+    <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h3 class="my-0 fw-normal">{{ invitation.team.title }}</h3>
+              </div>
+
+                <div class="card-body">
+
+                    <h4>Team owner: {{ invitation.team.created_by }}</h4>
+
+<a href="{% url 'accept_invitation' %}" class="btn btn-success">Accept invitation</a>
+              </div>
+            </div>
+          </div>
+{% endfor %}
+              </div>
+                </div>
+                {% endif %}
                 <div class="card mt-3">
 <div class="card-header py-3">
                 <h3 class="my-0 fw-normal">Card header</h3>
@@ -74,11 +110,21 @@
 
 
               </div>
+
+
             </div>
             <div class="col-md-8">
               <div class="card mb-3">
-                  <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">Latest projects</h3>
+                  <div class="card-header py-3 container-fluid">
+                      <div class="row">
+                        <div class="col-md-9">
+                <h3 class="w-75 my-0 fw-normal">Latest projects</h3>
+                        </div>
+                          <div class="col-md-3 float-right">
+                      <button type="button" class="btn btn-success px-4 me-md-2 w-100" onclick="location.href='{% url 'project:add' %}'">Add project</button>
+                          </div>
+                      </div>
+
               </div>
                 <div class="card-body">
                     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
@@ -93,7 +139,7 @@
 
                     <h4>Registered time: {{ project.registered_time|format_minutes }}</h4>
 
-<a href="{% url 'project:project' project.id %}" class="button is-success">Details</a>
+<a href="{% url 'project:project' project.id %}" class="btn btn-success">Details</a>
               </div>
             </div>
           </div>
@@ -144,7 +190,7 @@
         {% endif %}
                 </div>
               </div>
-                {% if entry not in untracked_entries %}
+                {% if untracked_entries %}
                               <div class="card mb-3">
                                                     <div class="card-header py-3">
                 <h3 class="my-0 fw-normal">Untracked entries</h3>
@@ -180,7 +226,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="№">Delete</a>
+                                        <a href="{% url 'project:delete_untracked_entry' entry.id %}">Delete</a>
 
                                     </td>
                                 </tr>
@@ -190,7 +236,8 @@
                     </table>
                 </div>
               </div>
-{% endif %}
+
+                {% endif %}
 <!--              <div class="row gutters-sm">-->
 <!--                <div class="col-sm-6 mb-3">-->
 <!--                  <div class="card h-100">-->
@@ -217,4 +264,6 @@
 
         </div>
     </div>
+        </div>
+      </div>
 {% endblock %}
