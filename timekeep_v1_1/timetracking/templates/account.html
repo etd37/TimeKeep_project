@@ -70,7 +70,7 @@
                  <div class="profile-header">
                     <h3><span>My Teams</span></h3>
 
-                        <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" onclick="location.href='{% url 'team:add' %}'">Add team</button>
+                        <button type="button" class="btn btn-success px-4 me-md-2 edit-profile" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team</button>
 
 
                 </div>
@@ -94,9 +94,9 @@
     <!--              <li>Help center access</li>-->
     <!--            </ul>-->
                     <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
                     {% if active_team.created_by == request.user %}
-                        <button type="button" class="btn btn-success" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
                     {% endif %}
               </div>
             </div>
@@ -122,8 +122,8 @@
     <!--            </ul>-->
                     <h4>{% if team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
 
-                <button type="button" class="btn btn-outline-primary" onclick="location.href='{% url 'team:team' team.id %}'">Details</button>
-                <button type="button" class="btn btn-success" onclick="location.href='{% url 'team:activate_team' team.id %}'">Activate</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="location.href='{% url 'team:team' team.id %}'">Details</button>
+                <button type="button" class="btn btn-success btn-sm" onclick="location.href='{% url 'team:activate_team' team.id %}'">Activate</button>
               </div>
             </div>
           </div>

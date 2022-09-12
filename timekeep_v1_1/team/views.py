@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
 import random
-# Create your views here.
+
 
 from .models import Team, Invitation
 from .mail import send_invitation, send_invitation_accepted

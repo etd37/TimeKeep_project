@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% load format_min %}
+
+{% block title %}Summary | {% endblock %}
+
+{% block content %}
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+
+        </div>
+
+        <div class="list-group list-group-flush border-bottom scrollarea">
+
+<br>
+<div class="container">
+<div class="row">
+
+    <div class="col-lg-4">
+           <div class="profile-card-4 z-depth-3">
+            <div class="card">
+              <div class="card-body text-center bg-light rounded-top">
+               <div class="user-box">
+                <img src="{{ user.userprofile.get_avatar }}" alt="user avatar" class="rounded-circle me-2" width="90%">
+              </div>
+              <h5 class="mb-1">{% firstof user.get_full_name user.username %}</h5>
+              <h6 class="text-dark">{{ user.username }}</h6>
+             </div>
+              <div class="card-body text-center">
+                <ul class="list-group shadow-none">
+                <li class="list-group-item">
+                  <div class="list-icon">
+
+                  </div>
+                  <div class="list-details">
+                    <span class="fw-semibold">Goal this month</span>
+                    <small></small>
+                  </div>
+                </li>
+                <li class="list-group-item">
+
+                  <div class="list-details">
+<div class="progress">
+    <div class="progress-bar" style="min-width: 20px; width: {{ hour_percent }}%;">
+        {{ hour_percent }}%
+    </div>
+</div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="list-details">
+                    <span>                   {{ time_for_user_and_month|format_minutes }} / {{ monthly_hour_count }}h
+</span>
+
+                  </div>
+                </li>
+
+                    <li class="list-group-item">
+                  <div class="list-details">
+                    <span>Avg. hour per day: {{ avg_hours_per_day }}</span>
+                  </div>
+                </li>
+                </ul>
+
+               </div>
+               <div class="card-footer text-center">
+                <div class="row">
+                  <div class="col p-2">
+                   <h4 class="mb-1 line-height-5">{{ team_count }}</h4>
+                    <small class="mb-0 font-weight-bold">Teams created</small>
+                   </div>
+                    <div class="col p-2">
+                      <h4 class="mb-1 line-height-5">{{ team_member_at_count }}</h4>
+                     <small class="mb-0 font-weight-bold">Teams total</small>
+                    </div>
+                    <div class="col p-2">
+                     <h4 class="mb-1 line-height-5">{{ project_count }}</h4>
+                     <small class="mb-0 font-weight-bold">Projects total</small>
+                    </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+        </div>
+
+
+
+        <div class="col-lg-8">
+<div>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills nav-fill" id="myTab">
+
+
+                <li class="nav-item">
+                    <a href="#profile" class="nav-link active" data-bs-toggle="tab">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#edit" class="nav-link" data-bs-toggle="tab">Edit</a>
+                </li>
+
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="profile">
+                    <br>
+                                      <div class="row">
+
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.get_full_name}}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Username</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.username }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.email }}
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Plan</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      (Placeholder)
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Member since</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ user.date_joined|date }}
+                    </div>
+                  </div>
+                  <hr>
+
+                </div>
+                <div class="tab-pane fade" id="edit">
+               <form method="POST" enctype='multipart/form-data'>
+                {% csrf_token %}
+                   <input name='type' value='edit_user' style='display: none'>
+    <div class="form-floating mt-2">
+      <input type="text" class="form-control" id="floatingName" placeholder="First name" name="first_name" value="{% if user.first_name %}{{ user.first_name }}{% else %}{% endif %}">
+      <label for="floatingName">First name</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input type="text" class="form-control" id="floatingSurname" placeholder="Last name" name="last_name" value="{% if user.last_name %}{{ user.last_name }}{% else %}{% endif %}">
+      <label for="floatingSurname">Last name</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input type="text" class="form-control" id="floatingEmail" placeholder="Enter email" name="email" value="{{ user.email }}">
+      <label for="floatingEmail">Email</label>
+    </div>
+<div class="input-group custom-file-button form-control form-control-lg mt-2">
+
+    <label class="input-group-text" for="inputGroupFile" name="avatar">Upload avatar</label>
+    <input type="file" class="form-control" id="inputGroupFile">
+
+
+
+
+  </div>
+
+
+
+                        <div class="form-group row mt-2">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Cancel">
+                                <button class="btn btn-success active" type="submit">Save Changes</button>
+                            </div>
+                        </div>
+               </form>
+                    <div class="accordion" id="accordionExample">
+
+<form method="POST">
+                {% csrf_token %}
+    <input name='type' value='edit_pass' style='display: none'>
+  <div class="accordion-item mt-4">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Change Password
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+    <div class="form-floating mt-2">
+      <input type="password" class="form-control" id="floatingOld" placeholder="Old password" name="old_password">
+      <label for="floatingName">Old password</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input type="password" class="form-control" id="floatingNew1" placeholder="First name" name="new_password1">
+      <label for="floatingName">New password</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input type="password" class="form-control" id="floatingNew2" placeholder="First name" name="new_password2">
+      <label for="floatingName">Repeat new password</label>
+    </div>
+                        <div class="form-group row mt-2">
+                            <label class="col-lg-3 col-form-label form-control-label"></label>
+                            <div class="col-lg-9">
+                                <input type="reset" class="btn btn-secondary" value="Cancel">
+                                <button class="btn btn-success active" type="submit">Save Changes</button>
+                            </div>
+                        </div>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+      </div>
+
+    </div>
+</div>
+            </div>
+          </div>
+{% endblock %}

@@ -3,8 +3,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
 
-# Create your views here.
-
 from .models import Project, Entry
 from team.models import Team
 

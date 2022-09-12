@@ -14,12 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from timetracking.timer import start_timer, stop_timer, discard_timer
 from timetracking.views import (
     home,
     shop,
     account,
+    acc,
     edit_profile,
     change_password,
     logout_request,
@@ -35,7 +38,8 @@ urlpatterns = [
     path('shop', shop, name='shop'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('logout/', logout_request, name='logout'),
-    path('account/', account, name='account'),
+    # path('account/', account, name='account'),
+    path('account/', acc, name='account'),
     path('account/edit_profile', edit_profile, name='edit_profile'),
     path('account/change_password', change_password, name='change_password'),
     path('accept_invitation/', accept_invitation, name='accept_invitation'),
@@ -44,4 +48,4 @@ urlpatterns = [
     path("timetracking/timer/start_timer/", start_timer, name='start_timer'),
     path("timetracking/timer/stop_timer/", stop_timer, name='stop_timer'),
     path("timetracking/timer/discard_timer/", discard_timer, name='discard_timer'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

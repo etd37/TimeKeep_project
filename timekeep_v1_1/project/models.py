@@ -3,9 +3,6 @@ from django.contrib.auth.models import User
 
 from team.models import Team
 
-
-# Create your models here.
-
 class Project(models.Model):
     team = models.ForeignKey(Team, related_name='projects', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)

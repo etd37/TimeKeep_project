@@ -1,18 +1,7 @@
-# Import Python
-
 from datetime import datetime, timezone
-
-# Import Django
-
 from django.shortcuts import get_object_or_404
-
-# Import Models
-
 from project.models import Entry
 from team.models import Team
-
-
-# Context processors
 
 def active_entry(request):
     if 'admin' in request.META['PATH_INFO']:

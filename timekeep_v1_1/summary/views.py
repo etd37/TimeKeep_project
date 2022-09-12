@@ -70,6 +70,37 @@ def summary(request):
         'team_month': team_month,
 
     }
+    # create add project form for modal
+    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+    if request.method == 'POST':
+        title = request.POST.get('add_proj')
+
+        if title:
+            project = Project.objects.create(team=team, title=title, created_by=request.user)
+            project.save()
+
+            return redirect('summary:summary')
+
+
+
+        
+    # create add team form for modal
+
+        title = request.POST.get('add_team')
+
+        if title:
+            team = Team.objects.create(title=title, created_by=request.user)
+            team.members.add(request.user)
+            team.save()
+
+            userprofile = request.user.userprofile
+            userprofile.active_team_id = team.id
+            userprofile.save()
+
+            return redirect('account')
+
+
+
 
 
 

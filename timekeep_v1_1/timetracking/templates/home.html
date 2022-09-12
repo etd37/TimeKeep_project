@@ -42,7 +42,7 @@
         </nav>
 
     </div>
-</div>
+
   <div class="container col-xxl-8 px-4 py-5">
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
 
@@ -71,12 +71,12 @@
 <form action="{% url 'home' %}" method="POST">
     {% csrf_token %}
 <input name='type' value='login' style='display: none'>
-        <div class="form-floating">
+        <div class="form-floating mt-2">
       <input type="text" class="form-control" id="floatingInput" name="username">
       <label for="floatingInput">Username</label>
     </div>
 
-    <div class="form-floating" >
+    <div class="form-floating mt-2" >
       <input type="password" class="form-control" id="floatingPassword" name="password">
       <label for="floatingPassword">Password</label>
     </div>
@@ -91,7 +91,7 @@
             <form action="{% url 'home' %}" method="POST">
                 {% csrf_token %}
             <input name='type' value='registration' style='display: none'>
-    <div class="form-floating">
+    <div class="form-floating mt-2">
               <input type="text" class="form-control" id="floatingInput" name="username" maxlength="150">
                 <p id="hint_id_username" class="help-block">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
               <label for="floatingInput">Username<span class="asteriskField">*</span></label>
@@ -100,13 +100,16 @@
 
 
 
-            <div class="form-floating">
+            <div class="form-floating mt-2">
               <input type="email" class="form-control" id="floatingEmail" name="email">
               <label for="floatingEmail">Email<span class="asteriskField">*</span></label>
             </div>
 
-            <div class="form-floating">
+            <div class="form-floating mt-2">
               <input type="password" class="form-control" id="floatingPassword" name="password1">
+
+
+
                 <p id="hint_id_password1" class="help-block">
                     <ul>
                         <li>Your password must contain at least 8 characters.</li>
@@ -116,7 +119,7 @@
               <label for="floatingPassword">Password<span class="asteriskField">*</span></label>
             </div>
 
-            <div class="form-floating">
+            <div class="form-floating mt-2">
               <input type="password" class="form-control" id="floatingRepeatPassword" name="password2">
               <label for="floatingPassword">Repeat Password<span class="asteriskField">*</span></label>
             </div>

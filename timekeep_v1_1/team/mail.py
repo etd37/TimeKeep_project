@@ -1,10 +1,8 @@
-# Import Django
-
 from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-#
+
 
 def send_invitation(to_email, code, team):
     from_email = settings.DEFAULT_EMAIL_FROM

@@ -1,4 +1,3 @@
-
 from datetime import datetime, timezone
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
@@ -30,7 +29,11 @@ def stop_timer(request):
         is_tracked=False
     )
 
-    tracked_minutes = int((datetime.now(timezone.utc) - entry.created_at).total_seconds() / 60)
+    tracked_minutes = int(
+        (
+                datetime.now(timezone.utc) - entry.created_at
+        ).total_seconds() / 60
+    )
 
     if tracked_minutes < 1:
         tracked_minutes = 1
@@ -42,7 +45,7 @@ def stop_timer(request):
     return JsonResponse({'success': True, 'entryID': entry.id})
 
 
-def discard_timer(request):
+def discard_timer(request):# fix length
     entries = Entry.objects.filter(team_id=request.user.userprofile.active_team_id, created_by=request.user,
                                    is_tracked=False).order_by('-created_at')
 
@@ -51,4 +54,3 @@ def discard_timer(request):
         entry.delete()
 
     return JsonResponse({'success': True})
-

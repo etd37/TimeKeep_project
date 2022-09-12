@@ -1,11 +1,4 @@
-#
-#
-
 from .models import Team
-
-
-#
-#
 
 def active_team(request):
     if 'admin' in request.META['PATH_INFO']:
