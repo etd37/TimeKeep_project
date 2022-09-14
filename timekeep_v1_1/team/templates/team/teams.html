@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% load format_min %}
+
+{% block title %}Summary | {% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#bootstrap"/>
+        </svg>
+
+        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+    </a>
+    <div class="list-group list-group-flush border-bottom scrollarea">
+        <div class="container">
+            <div class="main-body">
+
+                <!-- Breadcrumb -->
+                <br>
+                <!-- /Breadcrumb -->
+
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+
+                            {% if active_team %}
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Active team</h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <h1 class="card-title">{{ active_team.title }}</h1>
+                                <!--            <ul class="list-unstyled mt-3 mb-4">-->
+                                <!--              <li>10 users included</li>-->
+                                <!--              <li>2 GB of storage</li>-->
+                                <!--              <li>Email support</li>-->
+                                <!--              <li>Help center access</li>-->
+                                <!--            </ul>-->
+
+                                <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
+                                                                                                <div class="d-flex flex-column align-items-center text-center">
+                                    <div class="mt-3">
+                                <button type="button" class="btn btn-outline-secondary" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
+                                {% if active_team.created_by == request.user %}
+                                <button type="button" class="btn btn-orange" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
+                                {% endif %}
+                            </div>
+                                                                    </div>
+                                </div>
+                            {% else %}
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">No Teams yet</h3>
+                            </div>
+
+
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                            {% if invitations %}
+
+
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Pending invitations</h3>
+                            </div>
+                            <div class="card-body">
+                                {% for invitation in invitations %}
+                                <div class="col">
+                                    <div class="card mb-4 rounded-3 shadow-sm">
+                                        <div class="card-header py-3">
+                                            <h3 class="my-0 fw-normal">{{ invitation.team.title }}</h3>
+                                        </div>
+
+                                        <div class="card-body">
+
+                                            <h4>Team owner: {{ invitation.team.created_by }}</h4>
+
+                                            <a href="{% url 'accept_invitation' %}" class="btn btn-success">Accept invitation</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-normal">Card header</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <h1 class="card-title">Card Title</h1>
+                                <ul class="list-unstyled mt-3 mb-4">
+                                    <li>10 users included</li>
+                                    <li>2 GB of storage</li>
+                                    <li>Email support</li>
+                                    <li>Help center access</li>
+                                </ul>
+                                <p>Text</p>
+                                <button type="button" class="btn btn-outline-primary" onclick="location.href='#'">Button</button>
+                                <hr>
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header py-3 container-fluid">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="w-75 my-0 fw-normal">My Teams</h3>
+                                    </div>
+                                    <div class="col-md-3 float-right">
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+{% if active_team %}
+
+                                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+            <div class="col">
+            <div class="card border-primary mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h3 class="my-0 fw-normal">{{ active_team.title }}</h3>
+              </div>
+
+                <div class="card-body">
+                    <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='{% url 'team:team' active_team.id %}'">Details</button>
+                    {% if active_team.created_by == request.user %}
+                        <button type="button" class="btn btn-orange btn-sm" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
+                    {% endif %}
+              </div>
+            </div>
+          </div>
+                    {% else %}
+                                        <p>Add team to start tracking time.</p>
+        {% endif %}
+                                    {% for team in teams.all %}
+            <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+              <div class="card-header py-3">
+                <h3 class="my-0 fw-normal">{{ team.title }}</h3>
+              </div>
+
+                <div class="card-body">
+                    <h4>{% if team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
+
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="location.href='{% url 'team:team' team.id %}'">Details</button>
+                <button type="button" class="btn btn-success btn-sm" onclick="location.href='{% url 'team:activate_team' team.id %}'">Activate</button>
+              </div>
+            </div>
+          </div>
+
+                                    {% endfor %}
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

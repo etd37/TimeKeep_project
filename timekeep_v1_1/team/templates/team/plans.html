@@ -1,8 +1,17 @@
-{% extends 'base_unauth.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
+      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
 
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
+        </div>
+
+        <div class="list-group list-group-flush scrollarea">
 
 <br>
 <div class="container">
@@ -12,7 +21,7 @@
       <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 </div>
 
-<div class="container-sm mt-5">
+<div class="container-sm">
 <div class="row">
   <div class="col-sm-3">
     <div class="card sm-3 box-shadow">
@@ -24,10 +33,11 @@
             <ul class="list-unstyled mt-3 mb-4">
               <li>Up to 5 projects per team</li>
               <li>1 team member</li>
-<hr>
+
               <li>Best for personal use</li>
+                <br>
+                <br>
             </ul>
-            <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
           </div>
         </div>
   </div>
@@ -41,7 +51,6 @@
             <ul class="list-unstyled mt-3 mb-4">
               <li>Up to 10 projects per team</li>
               <li>Up to 5 team members</li>
-                <hr>
               <li>Best for small businesses</li>
             </ul>
             <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
@@ -58,7 +67,6 @@
             <ul class="list-unstyled mt-3 mb-4">
               <li>Up to 25 projects per team</li>
               <li>Up to 20 team members</li>
-                <hr>
               <li>Best for managing multiple teams</li>
             </ul>
             <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
@@ -75,7 +83,6 @@
             <ul class="list-unstyled mt-3 mb-4">
                             <li>Need more projects?</li>
                             <li>Need more members?</li>
-                <hr>
                             <li>We can do it!</li>
             </ul>
             <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
@@ -87,6 +94,6 @@
 </div>
         </div>
 </div>
-
-
+            </div>
+          </div>
 {% endblock %}

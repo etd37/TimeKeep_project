@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from project.models import Entry
 from team.models import Team, Invitation
 from project.models import Project
-
+import calendar
 from datetime import datetime, timedelta, timezone, date
 from dateutil.relativedelta import relativedelta
 
@@ -21,7 +21,9 @@ from .utilities import get_time_for_user_and_date, \
 @login_required
 def summary(request):
     if not request.user.userprofile.active_team_id:
-        return render(request, 'summary.html')
+        team = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
+        invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
+        return render(request, 'summary.html', {'team': team, 'invitations': invitations})
 
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
@@ -51,6 +53,22 @@ def summary(request):
     for untracked_entry in untracked_entries:
         untracked_entry.minutes_since = int((datetime.now(timezone.utc) - untracked_entry.created_at).total_seconds() / 60)
 
+    monthly_days_count = 0
+    cal = calendar.Calendar()
+
+    for week in cal.monthdayscalendar(datetime.now().year, datetime.now().month):
+        for i, day in enumerate(week):
+            # not this month's day or a weekend
+            if day == 0 or i >= 5:
+                continue
+            # or some other control if desired...
+            monthly_days_count += 1
+    monthly_hour_count = monthly_days_count * 8
+    time_for_user_and_month = get_time_for_user_and_month(team, request.user, user_month)
+    avg_hours_per_day = round(float(time_for_user_and_month / 60) / float(monthly_days_count),2)
+    hour_percent = round(100 * float(time_for_user_and_month / 60)/float(monthly_hour_count))
+
+
     context = {
         'team': team,
         'invitations': invitations,
@@ -68,7 +86,10 @@ def summary(request):
         'time_for_team_and_month': get_time_for_team_and_month(team, team_month),
         'team_num_months': team_num_months,
         'team_month': team_month,
-
+        'monthly_days_count':monthly_days_count,
+        'monthly_hour_count':monthly_hour_count,
+        'avg_hours_per_day': avg_hours_per_day,
+        'hour_percent': hour_percent,
     }
     # create add project form for modal
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
@@ -83,7 +104,7 @@ def summary(request):
 
 
 
-        
+
     # create add team form for modal
 
         title = request.POST.get('add_team')
@@ -97,7 +118,7 @@ def summary(request):
             userprofile.active_team_id = team.id
             userprofile.save()
 
-            return redirect('account')
+        return redirect('account')
 
 
 

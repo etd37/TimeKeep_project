@@ -37,18 +37,11 @@
                             <strong>TimeKeep</strong></a>
 
                     </li>
-                    <li class="nav-item">
-                        <!--<a class="nav-link active" aria-current="page" href="{% url 'summary:summary' %}">Home</a>-->
-                    </li>
+
                 </ul>
             </div>
 
-            <ul class="nav navbar-nav navbar-right">
 
-
-                <!--                <li class="nav-item"><a class="nav-link active" href="{% url 'shop' %}">Shop</a></li>-->
-
-            </ul>
         </div>
     </nav>
 
@@ -182,15 +175,15 @@
             </li>
 
             <li>
-                {% if 'account' in request.path %}
-                <a href="{% url 'account' %}" class="nav-link active">
+                {% if 'teams' in request.path and 'plans' not in request.path %}
+                <a href="{% url 'team:teams' %}" class="nav-link active">
                     <svg class="bi pe-none me-2" width="16" height="16">
                         <use xlink:href="#table"/>
                     </svg>
                     Teams
                 </a>
                 {% else %}
-                <a href="{% url 'account' %}" class="nav-link text-white">
+                <a href="{% url 'team:teams' %}" class="nav-link text-white">
                     <svg class="bi pe-none me-2" width="16" height="16">
                         <use xlink:href="#table"/>
                     </svg>
@@ -217,12 +210,21 @@
                 {% endif %}
             </li>
             <li>
-                <a href="{% url 'shop' %}" class="nav-link text-white">
+                {% if 'plans' in request.path %}
+                <a href="{% url 'team:plans' %}" class="nav-link active">
                     <svg class="bi pe-none me-2" width="16" height="16">
                         <use xlink:href="#cart"/>
                     </svg>
                     Shop
                 </a>
+                {% else %}
+                <a href="{% url 'team:plans' %}" class="nav-link text-white">
+                    <svg class="bi pe-none me-2" width="16" height="16">
+                        <use xlink:href="#cart"/>
+                    </svg>
+                    Shop
+                </a>
+                {% endif %}
             </li>
         </ul>
         <hr>

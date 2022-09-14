@@ -35,6 +35,27 @@ def team(request, team_id):
 
     return render(request, 'team/team.html', {'team': team, 'invitations': invitations})
 
+@login_required
+def teams(request):
+    teams = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
+    invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
+
+    if request.method == 'POST':
+        title = request.POST.get('add_team')
+
+        if title:
+            team = Team.objects.create(title=title, created_by=request.user)
+            team.members.add(request.user)
+            team.save()
+
+            userprofile = request.user.userprofile
+            userprofile.active_team_id = team.id
+            userprofile.save()
+
+            return redirect('team:teams')
+
+    return render(request, 'team/teams.html', {'teams': teams, 'invitations': invitations})
+
 
 @login_required
 def edit(request):
@@ -64,7 +85,7 @@ def activate_team(request, team_id):
 
     messages.info(request, 'The team was activated')
 
-    return redirect('team:team', team_id=team.id)
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required
@@ -90,3 +111,14 @@ def invite(request):
                 messages.info(request, 'The users has already been invited')
 
     return render(request, 'team/invite.html', {'team': team})
+
+@login_required
+def plans(request):
+    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+
+
+    context= {
+        'team': team,
+
+    }
+    return render(request, 'team/plans.html', context)

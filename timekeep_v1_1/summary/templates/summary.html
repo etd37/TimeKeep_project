@@ -13,13 +13,12 @@
 
         <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
     </a>
-    <div class="list-group list-group-flush border-bottom scrollarea">
+    <div class="list-group list-group-flush scrollarea">
         <div class="container">
             <div class="main-body">
 
-                <!-- Breadcrumb -->
                 <br>
-                <!-- /Breadcrumb -->
+
 
                 <div class="row gutters-sm">
                     <div class="col-md-4 mb-3">
@@ -27,7 +26,7 @@
 
                             {% if active_team %}
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">Active team</h3>
+                                <h3 class="my-0 fw-semibold">Active team</h3>
                             </div>
 
                             <div class="card-body">
@@ -50,9 +49,19 @@
                             </div>
                                                                     </div>
                                 </div>
+
+                                                        <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'team:teams' %}'">Change team</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
                             {% else %}
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">No Teams yet</h3>
+                                <h3 class="my-0 fw-semibold">No Teams yet</h3>
                             </div>
 
 
@@ -64,15 +73,16 @@
                                     </div>
                                 </div>
                             </div>
+
                             {% endif %}
                         </div>
 
-                        {% if invitations %}
+                            {% if invitations %}
 
 
                         <div class="card mt-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">Pending invitations</h3>
+                                <h3 class="my-0 fw-semibold">Pending invitations</h3>
                             </div>
                             <div class="card-body">
                                 {% for invitation in invitations %}
@@ -94,6 +104,52 @@
                             </div>
                         </div>
                         {% endif %}
+
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Hours goal</h3>
+                            </div>
+
+                            <div class="card-body text-center">
+                                <ul class="list-group shadow-none">
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
+
+                                        </div>
+                                        <div class="list-details">
+                                            <span class="fw-semibold">{{ monthly_days_count }} Business days this month</span>
+                                            <small></small>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+
+                                        <div class="list-details">
+                                            <div class="progress">
+                                                <div class="progress-bar" style="min-width: 20px; width: {{ hour_percent }}%;">
+                                                    {{ hour_percent }}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span>{{ time_for_user_and_month|format_minutes }} / {{ monthly_hour_count }}h</span>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span>Avg. hour per day: {{ avg_hours_per_day }}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+                        </div>
+
                         <div class="card mt-3">
                             <div class="card-header py-3">
                                 <h3 class="my-0 fw-normal">Card header</h3>
@@ -122,7 +178,7 @@
                             <div class="card-header py-3 container-fluid">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <h3 class="w-75 my-0 fw-normal">Latest projects (Total)</h3>
+                                        <h3 class="w-75 my-0 fw-semibold">Latest projects (Total)</h3>
                                     </div>
                                     <div class="col-md-3 float-right">
                                         {% if active_team %}
@@ -171,7 +227,7 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">Your time this month</h3>
+                                <h3 class="my-0 fw-semibold">Your time this month</h3>
                             </div>
                             <div class="card-body">
                                 {% if time_for_user_and_month %}

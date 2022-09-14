@@ -35,20 +35,20 @@ def home(request):
                         if user.is_superuser or user.is_staff:
                             login(request, user)
                             return redirect('/admin/')
-                        else:
-                            login(request, user)
-                            messages.info(request, f"You are now logged in as {username}.")
-                            return redirect('summary:summary')
+
+                        login(request, user)
+                        messages.info(request, f"You are now logged in as {username}.")
+                        return redirect('summary:summary')
                     if user is not None: # if user
                         login(request, user)
                         messages.info(request, f"You are now logged in as {username}.")
                         return redirect("summary:summary")
-                    else:
-                        messages.error(request, "Invalid username or password.")
 
-                else:
                     messages.error(request, "Invalid username or password.")
-                    return render(request, 'home.html')
+
+
+                messages.error(request, "Invalid username or password.")
+                return render(request, 'home.html')
             if form_type == 'registration':
                 registration_form = NewUserForm(request.POST)
                 if registration_form.is_valid():
@@ -63,14 +63,14 @@ def home(request):
                     return redirect('summary:summary')
                 messages.error(request, "Unsuccessful registration. Invalid information.")
                 return render(request, 'home.html')
-            else:
-                messages.error(request, "Unsuccessful registration. Invalid information.")
 
-        else:
-            login_form = AuthenticationForm()
-            registration_form = NewUserForm()
-            context = {'login_form': login_form, 'registration_form': registration_form}
-            return render(request, 'home.html', context)
+            messages.error(request, "Unsuccessful registration. Invalid information.")
+
+
+        login_form = AuthenticationForm()
+        registration_form = NewUserForm()
+        context = {'login_form': login_form, 'registration_form': registration_form}
+        return render(request, 'home.html', context)
 
 
 def shop(request):
@@ -139,6 +139,9 @@ def acc(request):
     monthly_hour_count = monthly_days_count * 8
     avg_hours_per_day = round(float(time_for_user_and_month / 60) / float(monthly_days_count),2)
     hour_percent = round(100 * float(time_for_user_and_month / 60)/float(monthly_hour_count))
+
+
+
     if request.method == 'POST':
         form_type = request.POST.get('type', None)
         if form_type == 'edit_user':
@@ -249,7 +252,7 @@ def accept_invitation(request):
             send_invitation_accepted(team, invitation)
 
             return redirect('summary:summary')
-        else:
-            messages.info(request, 'Invitation was not found')
-    else:
-        return render(request, 'accept_invitation.html')
+
+        messages.info(request, 'Invitation was not found')
+
+    return render(request, 'accept_invitation.html')
