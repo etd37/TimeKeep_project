@@ -281,7 +281,7 @@
 
                     <form method="POST">
                         {% csrf_token %}
-                        <input name='title' value='title' style='display: none'>
+                        <input name='add_proj' style='display: none'>
                         <div class="form-floating">
                             <div>
                                 <input type="text" class="form-control form-control-lg searchbox" id="id_title" name="add_proj" maxlength="150" placeholder="Project Title">
@@ -313,7 +313,7 @@
 
                     <form method="POST">
                         {% csrf_token %}
-                        <input name='add_team' value='title' style='display: none'>
+                        <input name='add_team' style='display: none'>
                         <div class="form-floating">
                             <div>
                                 <input type="text" class="form-control form-control-lg searchbox" id="id_title" name="add_team" maxlength="150" placeholder="Team Title">

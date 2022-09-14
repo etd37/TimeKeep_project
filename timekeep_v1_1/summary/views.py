@@ -21,9 +21,24 @@ from .utilities import get_time_for_user_and_date, \
 @login_required
 def summary(request):
     if not request.user.userprofile.active_team_id:
-        team = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
+        teams = request.user.teams.exclude(pk=request.user.userprofile.active_team_id)
         invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
-        return render(request, 'summary.html', {'team': team, 'invitations': invitations})
+        # create add team form for modal
+        if request.method == 'POST':
+            title = request.POST.get('add_team')
+
+            if title:
+                team = Team.objects.create(title=title, created_by=request.user)
+                team.members.add(request.user)
+                team.save()
+
+                userprofile = request.user.userprofile
+                userprofile.active_team_id = team.id
+                userprofile.save()
+
+                return redirect('summary:summary')
+
+        return render(request, 'summary.html', {'teams': teams, 'invitations': invitations})
 
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     invitations = Invitation.objects.filter(email=request.user.email, status=Invitation.INVITED)
@@ -66,7 +81,6 @@ def summary(request):
     monthly_hour_count = monthly_days_count * 8
     time_for_user_and_month = get_time_for_user_and_month(team, request.user, user_month)
     avg_hours_per_day = round(float(time_for_user_and_month / 60) / float(monthly_days_count),2)
-    hour_percent = round(100 * float(time_for_user_and_month / 60)/float(monthly_hour_count))
 
 
     context = {
@@ -89,7 +103,7 @@ def summary(request):
         'monthly_days_count':monthly_days_count,
         'monthly_hour_count':monthly_hour_count,
         'avg_hours_per_day': avg_hours_per_day,
-        'hour_percent': hour_percent,
+
     }
     # create add project form for modal
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
@@ -101,29 +115,6 @@ def summary(request):
             project.save()
 
             return redirect('summary:summary')
-
-
-
-
-    # create add team form for modal
-
-        title = request.POST.get('add_team')
-
-        if title:
-            team = Team.objects.create(title=title, created_by=request.user)
-            team.members.add(request.user)
-            team.save()
-
-            userprofile = request.user.userprofile
-            userprofile.active_team_id = team.id
-            userprofile.save()
-
-        return redirect('account')
-
-
-
-
-
 
     if 'home' and not 'dashboard' in request.META['PATH_INFO']:
         return render(request, 'summary.html', context)
