@@ -4,14 +4,18 @@
 
 {% block content %}
       <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
           <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
-
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
-
-        </div>
+          <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+        </a>
+        <div class="list-group list-group-flush border-bottom scrollarea">
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'account' %}">My account</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</a></li>
+    </ol>
+</nav>
 
 <div class="row">
     <h1>{{ project.title }}</h1>
@@ -24,45 +28,55 @@
 
     <form method="post" action=".">
         {% csrf_token %}
-    <div class="row">
-        <div class="control">
-            <div class="select">
-                <select name="project" v-model="project">
-                    <option value="">Choose project</option>
+                    <div class="col">
+        <div class="form-group">
+            <select class="form-control" name="project" v-model="project">
+<option value="">Choose project</option>
                     {% for project in projects %}
                         <option value="{{ project.id }}">{{ project.title }}</option>
                     {% endfor %}
-                </select>
-            </div>
+            </select>
         </div>
-        <div class="control">
-            <div class="select">
-                <select name="hours">
-                    <option value="0">0h</option>
-                    {% for i in "x"|rjust:"10" %}
+    </div>
+    <div class="row">
+
+
+                        <div class="col">
+        <div class="form-group">
+            <select class="form-control" name="hours">
+<option value="0">0h</option>
+                    {% for i in "x"|rjust:"23" %}
                         <option value="{{ forloop.counter }}"{% if hours == forloop.counter %} selected{% endif %}>{{ forloop.counter }}h</option>
                     {% endfor %}
-                </select>
-            </div>
+            </select>
         </div>
+    </div>
 
-        <div class="control">
-            <div class="select">
-                <select name="minutes">
+        <div class="col">
+        <div class="form-group">
+            <select class="form-control" name="minutes">
                     <option value="0">0m</option>
                     {% for i in "x"|rjust:"59" %}
                         <option value="{{ forloop.counter }}"{% if minutes == forloop.counter %} selected{% endif %}>{{ forloop.counter }}m</option>
                     {% endfor %}
-                </select>
-            </div>
+            </select>
         </div>
+    </div>
+
+
+
+
+
+
+
+
     </div>
 
     <div class="field">
         <label>Date</label>
 
         <div class="control">
-            <input type="date" id="id_date" class="input" name="date" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
+            <input type="date" id="id_date" class="input form-control" name="date" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
         </div>
     </div>
 
@@ -75,6 +89,7 @@
 </div>
 </div>
           </div>
+
 {% endblock %}
 
 {% block scripts %}

@@ -26,12 +26,12 @@
 
                             {% if active_team %}
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-semibold">Active team</h3>
+                                <h4 class="my-0 fw-semibold">Active team</h4>
                             </div>
 
                             <div class="card-body">
 
-                                <h1 class="card-title">{{ active_team.title }}</h1>
+                                <h3 class="card-title">{{ active_team.title }}</h3>
                                 <!--            <ul class="list-unstyled mt-3 mb-4">-->
                                 <!--              <li>10 users included</li>-->
                                 <!--              <li>2 GB of storage</li>-->
@@ -74,7 +74,7 @@
 
                             {% else %}
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-semibold">No Teams yet</h3>
+                                <h4 class="my-0 fw-semibold">No Teams yet</h4>
                             </div>
 
 
@@ -95,14 +95,14 @@
 
                         <div class="card mt-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-semibold">Pending invitations</h3>
+                                <h4 class="my-0 fw-semibold">Pending invitations</h4>
                             </div>
                             <div class="card-body">
                                 {% for invitation in invitations %}
                                 <div class="col">
                                     <div class="card mb-4 rounded-3 shadow-sm">
                                         <div class="card-header py-3">
-                                            <h3 class="my-0 fw-normal">{{ invitation.team.title }}</h3>
+                                            <h4 class="my-0 fw-normal">{{ invitation.team.title }}</h4>
                                         </div>
 
                                         <div class="card-body">
@@ -121,7 +121,7 @@
                         {% if active_team %}
                         <div class="card mt-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-semibold">Hours goal</h3>
+                                <h4 class="my-0 fw-semibold">Hours goal</h4>
                             </div>
 
                             <div class="card-body text-center">
@@ -167,11 +167,11 @@
 
                         <div class="card mt-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">Card header</h3>
+                                <h4 class="my-0 fw-normal">Card header</h4>
                             </div>
 
                             <div class="card-body">
-                                <h1 class="card-title">Card Title</h1>
+                                <h3 class="card-title">Card Title</h3>
                                 <ul class="list-unstyled mt-3 mb-4">
                                     <li>10 users included</li>
                                     <li>2 GB of storage</li>
@@ -193,7 +193,7 @@
                             <div class="card-header py-3 container-fluid">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <h3 class="w-75 my-0 fw-semibold">Latest projects (Total)</h3>
+                                        <h4 class="w-75 my-0 fw-semibold">Latest projects (Total)</h4>
                                     </div>
                                     <div class="col-md-3 float-right">
                                         {% if active_team %}
@@ -216,7 +216,7 @@
                                     <div class="col">
                                         <div class="card mb-4 rounded-3 shadow-sm">
                                             <div class="card-header py-3">
-                                                <h3 class="my-0 fw-semibold">{{ project.title }}</h3>
+                                                <h4 class="my-0 fw-semibold">{{ project.title }}</h4>
                                             </div>
 
                                             <div class="card-body">
@@ -242,7 +242,7 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-semibold">Your time this month</h3>
+                                <h4 class="my-0 fw-semibold">Your time this month</h4>
                             </div>
                             <div class="card-body">
                                 {% if time_for_user_and_month %}
@@ -278,7 +278,7 @@
                         {% if untracked_entries %}
                         <div class="card mb-3">
                             <div class="card-header py-3">
-                                <h3 class="my-0 fw-normal">Untracked entries</h3>
+                                <h4 class="my-0 fw-normal">Untracked entries</h4>
                             </div>
                             <div class="card-body">
                                 <table class="table is-fullwidth" style="text-align: left;">

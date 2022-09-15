@@ -2,101 +2,141 @@
 
 {% load format_min %}
 
-{% block title %} My account | {% endblock %}
+{% block title %}Summary | {% endblock %}
 
 {% block content %}
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#bootstrap"/>
+        </svg>
 
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+    </a>
+    <div class="list-group list-group-flush scrollarea">
+        <div class="container">
+            <div class="main-body">
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
-
-        </div>
-
-        <div class="columns">
-            <div class="column is-4">
-                <h1 class="title">Projects</h1>
-
-            <button type="button" class="btn btn-success btn-lg px-4 me-md-2" data-bs-toggle="modal" data-bs-target="#addProj">Add project</button>
+                <!-- Breadcrumb -->
+                <br>
+                <!-- /Breadcrumb -->
+            {% for teamz in teams %}
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
 
 
-            </div>
-        </div>
-<hr>
+                            <div class="card-header py-3">
+                                <h4 class="my-0 fw-semibold">{{ teamz.title }} {% if teamz == active_team %}(Active){% endif %}</h4>
+                            </div>
 
-<div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    {% for project in projects %}
-    <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
-                <h3 class="my-0 fw-normal">{{ project.title }}</h3>
-              </div>
+                            <div class="card-body">
+                                <ul class="list-group shadow-none">
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
 
-                <div class="card-body">
-    <!--            <h1 class="card-title pricing-card-title">$0<small class="text-muted fw-light">/mo</small></h1>-->
-    <!--            <ul class="list-unstyled mt-3 mb-4">-->
-    <!--              <li>10 users included</li>-->
-    <!--              <li>2 GB of storage</li>-->
-    <!--              <li>Email support</li>-->
-    <!--              <li>Help center access</li>-->
-    <!--            </ul>-->
-                    <h4>Registered time: {{ project.registered_time|format_minutes }}</h4>
+                                        </div>
+                                        <div class="list-details">
+                                            <span class="fw-semibold">Members</span>
+                                            <small></small>
+                                        </div>
+                                    </li>
+                                {% for member in teamz.members.all %}
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span>{{ member.username }}</span>
 
-<a href="{% url 'project:project' project.id %}" class="button is-success">Details</a>
-              </div>
-            </div>
-          </div>
-    {% empty %}
-        <div><p>No projects yet</p></div>
-    {% endfor %}
-</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% endfor %}
+                            </div>
+                            {% if teamz != active_team %}
 
-    </div>
-            </div>
-          </div>
 
-<div class="modal fade" id="addProj" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" backdrop="false">
-  <div class="vertical-alignment-helper">
-    <div class="modal-dialog vertical-align-center">
-    <div class="modal-content">
-      <div class="modal-header modal-header-own">
-        <h3 class="modal-title" id="exampleModalLabel">Tracked time</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
 
-        <form method="POST">
-            {% csrf_token %}
-            <input name='type' value='add_proj' style='display: none'>
-            <div class="form-floating">
-                <div>
-                    <input type="text" class="form-control form-control-lg searchbox" id="id_title" name="title" maxlength="150" placeholder="Project Title">
+
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'team:activate_team' teamz.id %}'">Activate</button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header py-3 container-fluid">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h4 class="w-75 my-0 fw-semibold">{{ teamz.title }}'s projects</h4>
+                                    </div>
+                                    <div class="col-md-3 float-right">
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+
+
+                                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+
+                                    {% for project in teamz.projects.all %}
+                                    <div class="col">
+                                        <div class="card mb-4 rounded-3 shadow-sm">
+                                            <div class="card-header py-3">
+                                                <h4 class="my-0 fw-semibold">{{ project.title }}</h4>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <h5>{{ project.registered_time|format_minutes }}</h5>
+
+                                            </div>
+                                                                        {% if teamz == active_team %}
+                                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+
+
+                                        <button type="button" class="btn btn-outline-secondary px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'project:project' project.id %}'">Details</button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                                                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    {% empty %}
+                                    <h5>No projects yet</h5>
+                                    {% endfor %}
+
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
+                <hr>
+                {% endfor %}
             </div>
-
-
-
-
-
-
-
-      <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Add project</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-
-      </div>
-                    </form>
-
+        </div>
     </div>
-  </div>
 </div>
-    </div>
 {% endblock %}
-
-{% block scripts %}
-
-{% endblock %}
-

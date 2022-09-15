@@ -9,8 +9,9 @@ from team.models import Team
 
 @login_required
 def projects(request):
-
+    teams = Team.objects.filter(members=request.user)
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
+    project_team_id = Team.objects.filter(members=request.user).values_list('id', flat=True)
     projects = team.projects.all()
 
     if request.method == 'POST':
@@ -22,10 +23,16 @@ def projects(request):
 
             return redirect('project:projects')
 
-    return render(request, 'project/projects.html', {'team': team, 'projects': projects})
+    project_team_id = Team.objects.filter(members=request.user).values_list('id', flat=True)
+
+    for x in project_team_id:
+        projects_for_teams = Project.objects.filter(team_id=x)
 
 
-@login_required
+    return render(request, 'project/projects.html', {'team': team, 'projects': projects, 'project_team_id':project_team_id, 'projects_for_teams':projects_for_teams, 'teams':teams,})
+
+
+@login_required(login_url='/accounts/login/')
 def project(request, project_id):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     project = get_object_or_404(Project, team=team, pk=project_id)

@@ -217,7 +217,7 @@
           </tfoot>
         </table>
         {% else %}
-      <h2>No entries today.</h2>
+      <h4>No entries today.</h4>
         {% endif %}
 
       <a href="?num_days={{ num_days|add:'1' }}">Previous</a>
@@ -265,7 +265,7 @@
           </tfoot>
         </table>
         {% else %}
-      <h2>No entries this month.</h2>
+      <h4>No entries this month.</h4>
         {% endif %}
 
       <a href="?user_num_months={{ user_num_months|add:'1' }}">Previous</a>
@@ -308,7 +308,7 @@
 
         </table>
         {% else %}
-      <h2>No registered time for this team this month.</h2>
+      <h4>No registered time for this team this month.</h4>
         {% endif %}
             <a href="?team_num_months={{ team_num_months|add:'1' }}">Previous</a>
       {% if team_num_months > 0 %}
