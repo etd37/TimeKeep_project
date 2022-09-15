@@ -3,10 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.contrib import messages
 import random
-
+from datetime import datetime, timedelta, timezone, date
+from dateutil.relativedelta import relativedelta
 
 from .models import Team, Invitation
+from project.models import Project
 from .mail import send_invitation, send_invitation_accepted
+from summary.utilities import get_time_for_user_and_date, \
+    get_time_for_team_and_month, \
+    get_time_for_user_and_month, \
+    get_time_for_user_and_project_and_month, \
+    get_time_for_user_and_team_month
+
 
 
 @login_required
@@ -32,8 +40,33 @@ def add(request):
 def team(request, team_id):
     team = get_object_or_404(Team, pk=team_id, status=Team.ACTIVE, members__in=[request.user])
     invitations = team.invitations.filter(status=Invitation.INVITED)
+    all_projects = team.projects.all()
+    members = team.members.all()
+    user_num_months = int(request.GET.get('user_num_months', 0))
+    user_month = datetime.now() - relativedelta(months=user_num_months)
 
-    return render(request, 'team/team.html', {'team': team, 'invitations': invitations})
+    for project in all_projects:
+        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project, request.user, user_month)
+
+    if request.method == 'POST':
+        title = request.POST.get('add_proj')
+
+        if title:
+            project = Project.objects.create(team=team, title=title, created_by=request.user)
+            project.save()
+
+            return redirect('team:team', team_id=team.id)
+
+    context = {
+        'team': team,
+        'invitations': invitations,
+        'all_projects': all_projects,
+        'projects': all_projects,
+        'members': members,
+
+    }
+
+    return render(request, 'team/team.html', context)
 
 @login_required
 def teams(request):

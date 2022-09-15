@@ -1,59 +1,115 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ team.title }} | {% endblock %}
 {% load format_min %}
+
+{% block title %}Summary | {% endblock %}
+
 {% block content %}
 <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
         <svg class="bi pe-none me-2" width="30" height="24">
-            <use xlink:href="#clock"/>
+            <use xlink:href="#bootstrap"/>
         </svg>
 
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+    </a>
+    <div class="list-group list-group-flush scrollarea">
+        <div class="container">
+            <div class="main-body">
 
-    </div>
+                <!-- Breadcrumb -->
+                <br>
+                <!-- /Breadcrumb -->
 
-    <div class="row">
-        <h1>{{ project.title }}</h1>
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
 
-        <hr>
 
-        <a href="{% url 'project:edit' project.id %}">Edit project</a>
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Project (Team:{{ active_team.title }})</h3>
+                            </div>
 
-        <h2>Register time</h2>
+                            <div class="card-body">
 
-        <form method="post" action=".">
+                                <h1 class="card-title">{{ project.title }}</h1>
+
+
+                            </div>
+                            {% if team == active_team %}
+                            {% if active_team.created_by == request.user %}
+
+                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'project:edit' project.id %}'">Edit project</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+
+
+                        </div>
+
+
+
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Register time</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <form method="post" action=".">
             {% csrf_token %}
             <div class="row">
-                <div class="control">
+                <label>Time</label>
+                <div class="control mt-1">
             <input class="form-control" type="text" id="time" name="time" placeholder="hh:mm:ss" />
  </div>
             </div>
 
             <div class="field">
-                <label>Date</label>
+                <label class="mt-2">Date</label>
 
-                <div class="control">
+                <div class="control mt-1">
                     <input class="form-control" type="date" id="id_date" name="date" value="{{ today|date:'Y-m-d' }}"
                            placeholder="yyyy-mm-dd">
                 </div>
             </div>
 
-            <div class="field">
-                <div class="control">
-                    <button class="button is-success">Submit</button>
-                </div>
-            </div>
-        </form>
-    </div>
 
-    <hr>
 
-    <h2 class="subtitle">Logged entries</h2>
 
-    {% if project.entries.all %}
+                            </div>
+                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+
+
+<button class="btn btn-success px-4 me-md-2 w-100 fw-semibold" type="submit">Submit</button>
+
+                                    </div>
+                                </div>
+                            </div>
+</form>
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header py-3 container-fluid">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="w-75 my-0 fw-semibold">Logged entries</h3>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                {% if project.entries.all %}
     <table class="table is-fullwidth" style="text-align: left;">
         <thead>
         <tr>
@@ -89,10 +145,13 @@
     {% else %}
     <p>No entries yet...</p>
     {% endif %}
+                            </div>
+                        </div>
+                    </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
-
 {% endblock %}

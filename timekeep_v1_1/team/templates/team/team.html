@@ -1,51 +1,171 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ team.title }} | {% endblock %}
+{% load format_min %}
+
+{% block title %}Summary | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#bootstrap"/>
+        </svg>
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
+    </a>
+    <div class="list-group list-group-flush scrollarea">
+        <div class="container">
+            <div class="main-body">
 
+                <!-- Breadcrumb -->
+                <br>
+                <!-- /Breadcrumb -->
+
+                <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+
+
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Team {% if team == active_team %}(Active){% endif %}</h3>
+                            </div>
+
+                            <div class="card-body">
+
+                                <h1 class="card-title">{{ team.title }}</h1>
+                                <!--            <ul class="list-unstyled mt-3 mb-4">-->
+                                <!--              <li>10 users included</li>-->
+                                <!--              <li>2 GB of storage</li>-->
+                                <!--              <li>Email support</li>-->
+                                <!--              <li>Help center access</li>-->
+                                <!--            </ul>-->
+
+                                <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
+
+                            </div>
+                            {% if team == active_team %}
+                            {% if active_team.created_by == request.user %}
+
+                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+                                        <button type="button" class="btn btn-outline-secondary mt-2" onclick="location.href='#'">Edit team</button>
+                                        <button type="button" class="btn btn-orange mt-2" onclick="location.href='{% url 'team:invite' %}'">Invite users</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% else %}
+                            <div class="card-footer text-center">
+                                <div class="row">
+                                    <div>
+
+
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" onclick="location.href='{% url 'team:activate_team' team.id %}'">Activate</button>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
+                        </div>
+
+                        {% if invitations %}
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Invited members</h3>
+                            </div>
+
+                            <div class="card-body">
+                                {% for member in invitations %}
+                                <p>{{ member.email }} - {{ member.date_sent|timesince }} ago</p>
+                                {% endfor %}
+                            </div>
+
+
+                        </div>
+                        {% endif %}
+
+                        <div class="card mt-3">
+                            <div class="card-header py-3">
+                                <h3 class="my-0 fw-semibold">Members</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <ul class="list-group shadow-none">
+                                {% for member in team.members.all %}
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span>{{ member.username }}</span>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% endfor %}
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card mb-3">
+                            <div class="card-header py-3 container-fluid">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                        <h3 class="w-75 my-0 fw-semibold">Team projects</h3>
+                                    </div>
+                                    <div class="col-md-3 float-right">
+                                        {% if active_team %}
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addProjModal">Add project</button>
+                                        {% else %}
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team first</button>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                {% if active_team.id %}
+                                {% if projects %}
+                                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+
+
+                                    {% for project in projects %}
+                                    <div class="col">
+                                        <div class="card mb-4 rounded-3 shadow-sm">
+                                            <div class="card-header py-3">
+                                                <h3 class="my-0 fw-semibold">{{ project.title }}</h3>
+                                            </div>
+
+                                            <div class="card-body">
+
+                                                <h5>{{ project.registered_time }}</h5>
+
+                                                <a href="{% url 'project:project' project.id %}" class="btn btn-outline-secondary btn-sm">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% endfor %}
+
+
+                                </div>
+                                {% else %}
+                                <h5>No projects yet</h5>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-
-<div class="row">
-    <h1>{{ team.title }}</h1>
-
-        {% if request.user == team.created_by %}
-            <button class="button is-primary"><a href="{% url 'team:invite' %}" >Invite users</a></button>
-        {% endif %}
-    <hr>
-
-    <h2>Members</h2>
-
-    {% for member in team.members.all %}
-        <p>{{ member.get_full_name }} ({{ member.username }})</p>
-    {% endfor %}
-
-    <h2 class="subtitle mt-6">Invited members</h2>
-
-            {% for member in invitations %}
-                <p>{{ member.email }} - {{ member.date_sent|timesince }} ago</p>
-            {% endfor %}
-
-    {% if team.created_by == request.user %}
-    <hr>
-    <h3>Owner actions</h3>
-    <div class="buttons">
-        <a href="{% url 'team:edit' %}" class="btn btn-primary">Edit team</a>
     </div>
-
-    <div class="buttons">
-        <a href="{% url 'project:projects' %}" class="btn btn-primary">Projects</a>
-    </div>
-    {% endif %}
 </div>
-</div>
-</div>
-
 {% endblock %}

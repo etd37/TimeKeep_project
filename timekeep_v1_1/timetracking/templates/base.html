@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/5.2/examples/sidebars/sidebars.css" rel="stylesheet">
     <script src="https://getbootstrap.com/docs/5.2/examples/sidebars/sidebars.js"></script>
+<script src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -244,6 +245,7 @@
             </ul>
 
         </div>
+<!--STOP TRACKING MODAL-->
         <div class="modal fade" id="showTrackingModal" tabindex="-1" aria-labelledby="showTrackingModalLabel" aria-hidden="true">
             <div class="vertical-alignment-helper">
                 <div class="modal-dialog vertical-align-center">
@@ -255,6 +257,76 @@
                         <div class="modal-body">
                             <h4 style="color: #000">You have tracked [[ readableSeconds ]]</h4>
                         </div>
+
+                        <div class="modal-footer">
+                            <a class="btn btn-success" @click="addToProject()" role="button">Add Time</a>
+                            <a class="btn btn-outline-success" @click="addLater()" role="button" data-bs-dismiss="modal">Add Later</a>
+                            <a class="btn btn-danger" @click="discardTimer()" role="button" data-bs-dismiss="modal">Discard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--ADD ENTRY MODAL-->
+        <div class="modal fade" id="addEntryModal" tabindex="-1" aria-labelledby="addEntryModalLabel" aria-hidden="true">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center">
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-own">
+                            <h3 class="modal-title" id="addEntryModalLabel">Add to project</h3>
+                        </div>
+
+                        <div class="modal-body">
+<form method="post" action=".">
+        {% csrf_token %}
+    <div class="row">
+        <div class="control">
+            <div class="select">
+                <select name="project" v-model="project">
+                    <option value="">Choose project</option>
+                    {% for project in projects %}
+                        <option value="{{ project.id }}">{{ project.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="control">
+            <div class="select">
+                <select name="hours">
+                    <option value="0">0h</option>
+                    {% for i in "x"|rjust:"10" %}
+                        <option value="{{ forloop.counter }}"{% if hours == forloop.counter %} selected{% endif %}>{{ forloop.counter }}h</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="control">
+            <div class="select">
+                <select name="minutes">
+                    <option value="0">0m</option>
+                    {% for i in "x"|rjust:"59" %}
+                        <option value="{{ forloop.counter }}"{% if minutes == forloop.counter %} selected{% endif %}>{{ forloop.counter }}m</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Date</label>
+
+        <div class="control">
+            <input type="date" id="id_date" class="input" name="date" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
+        </div>
+    </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-success">Submit</button>
+            </div>
+        </div>
+    </form>                        </div>
 
                         <div class="modal-footer">
                             <a class="btn btn-success" @click="addToProject()" role="button">Add Time</a>
@@ -333,6 +405,7 @@
             </div>
         </div>
     </div>
+
     {% block content %}
 
 
@@ -480,6 +553,23 @@
     }
     flatpickr("input[type=date]", config);
 
+</script>
+<script>
+$(document).ready(function() {
+    var last=$.cookie('activeAccordionGroup');
+    if (last!=null) {
+        //remove default collapse settings
+        $("#accordion2 .collapse").removeClass('in');
+        //show the last visible group
+        $("#"+last).collapse("show");
+    }
+});
+
+//when a group is shown, save it as the active accordion group
+$("#accordion2").bind('shown', function() {
+    var active=$("#accordion2 .in").attr('id');
+    $.cookie('activeAccordionGroup', active)
+});
 </script>
   <script src="{% static 'scripts/script.js' %}"></script>
 {% block scripts %}
