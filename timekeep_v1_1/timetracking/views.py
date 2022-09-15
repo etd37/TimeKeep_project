@@ -70,39 +70,7 @@ def home(request):
         login_form = AuthenticationForm()
         registration_form = NewUserForm()
 
-        team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
-        entry = get_object_or_404(Entry, pk=entry_id, team=team)
-        projects = team.projects.all()
-        current_datetime = datetime.datetime.now()
-        if request.method == 'POST':
-            hours = int(request.POST.get('hours', 0))
-            minutes = int(request.POST.get('minutes', 0))
-            project = request.POST.get('project')
-
-            if project:
-                entry.project_id = project
-                entry.minutes = (hours * 60) + minutes
-                entry.created_at = '%s %s' % (request.POST.get('date'), entry.created_at.time())
-                entry.is_tracked = True
-                entry.save()
-
-                messages.info(request, 'The time was tracked')
-
-                return redirect('project:projects')
-            else:
-                messages.error(request, '"Project" can not be empty! Choose a project.')
-
-        hours, minutes = divmod(entry.minutes, 60)
-        context = {
-            'login_form': login_form,
-            'registration_form': registration_form,
-            'hours': hours,
-            'minutes': minutes,
-            'team': team,
-            'projects': projects,
-            'entry': entry,
-            'current_datetime':current_datetime
-        }
+        context = {'login_form': login_form, 'registration_form': registration_form}
         return render(request, 'home.html', context)
 
 
