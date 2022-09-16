@@ -17,7 +17,6 @@ from django.contrib.messages import constants as messages
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -38,6 +37,10 @@ WEBSITE_URL = 'http://127.0.0.1:8000'
 ACCEPTATION_URL = WEBSITE_URL + '/signup/'
 # Application definition
 
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51LiGw9HZuTomtwNrHU74eFMZheCmynMx0hHrfQe6myL9vxgksZSnIa99DPAZrEUhrdvutJIE4LZakTcYHGs4b2GX00HLznr7Xc'
+STRIPE_SECRET_KEY = 'sk_test_51LiGw9HZuTomtwNr8rEVZoBSQ6WkGsAoZBmwooxwc4VbBWhGMmbFSvXd6w9zsEgLwzaw7qMVQMe4DF6RquV8VKqn00QkkmMNbH'
+STRIPE_PRICE_ID = 'price_1LiH2pHZuTomtwNreNvrJQtI'
+STRIPE_ENDPOINT_SECRET = 'acct_1LiGw9HZuTomtwNr'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
     'team',
     'project',
     'summary',
+    'subscriptions.apps.SubscriptionsConfig',
 
 ]
 
@@ -68,7 +72,7 @@ ROOT_URLCONF = 'timekeep_v1_1.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -87,7 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'timekeep_v1_1.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -97,7 +100,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -111,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -123,11 +124,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [Path(BASE_DIR).joinpath('static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -141,9 +142,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.SUCCESS: 'alert-success',
-        messages.WARNING: 'alert-warning',
-        messages.ERROR: 'alert-danger',
- }
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
