@@ -9,5 +9,5 @@ class UserProfile(models.Model):
     def get_avatar(self):
         if self.avatar:
             return self.avatar.url
-        return '/static/images/avatar.png'
+        return '/media/images/avatar.png'
 

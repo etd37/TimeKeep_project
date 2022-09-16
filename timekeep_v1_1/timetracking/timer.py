@@ -45,9 +45,12 @@ def stop_timer(request):
     return JsonResponse({'success': True, 'entryID': entry.id})
 
 
-def discard_timer(request):# fix length
-    entries = Entry.objects.filter(team_id=request.user.userprofile.active_team_id, created_by=request.user,
-                                   is_tracked=False).order_by('-created_at')
+def discard_timer(request):
+    entries = Entry.objects.filter(
+        team_id=request.user.userprofile.active_team_id,
+        created_by=request.user,
+        is_tracked=False
+    ).order_by('-created_at')
 
     if entries:
         entry = entries.first()

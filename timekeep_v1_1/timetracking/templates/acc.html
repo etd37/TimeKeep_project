@@ -28,7 +28,7 @@
                         <div class="card">
                             <div class="card-body text-center bg-light rounded-top">
                                 <div class="user-box">
-                                    <img src="{{ user.userprofile.get_avatar }}" alt="user avatar" class="rounded-circle me-2" width="90%" height="90%">
+                                    <img src="{{ request.user.userprofile.get_avatar }}" class="rounded-circle me-2" alt="user avatar" width="90%">
                                 </div>
                                 <h5 class="mb-1">{% firstof user.get_full_name user.username %}</h5>
                                 <h6 class="text-dark">{{ user.username }}</h6>
@@ -179,20 +179,22 @@
                                             </div>
                                             <div class="input-group custom-file-button form-control form-control-lg mt-2">
 
-                                                <label class="input-group-text" for="inputGroupFile">Upload avatar</label>
-                                                <input type="file" class="form-control" id="inputGroupFile" name="avatar">
+                                                <label class="input-group-text" for="id_image">Upload avatar</label>
+                                                <input type="file" class="form-control" id="id_image" name="avatar">
 
 
                                             </div>
 
 
-                                            <div class="form-group row mt-2">
-                                                <label class="col-lg-3 col-form-label form-control-label"></label>
-                                                <div class="col-lg-9">
-                                                    <input type="reset" class="btn btn-secondary" value="Cancel">
-                                                    <button class="btn btn-success active" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
+<div class="form-group row mt-2">
+			  	<div id="image-box" class="image-container"></div>
+
+    <button class="btn btn-outline-info" id="crop-btn" style="width: 100%; margin-top: 10px; display: none;" type="button">Crop</button>
+<label class="col-lg-3 col-form-label form-control-label"></label>
+    <div class="col-lg-9">
+    <button class="btn btn-secondary" id="reset-btn" type="reset">Cancel</button>
+    <button class="btn btn-success" id="confirm-btn" type="submit">Save Changes</button>
+			  </div></div>
                                         </form>
                                         <div class="accordion" id="accordionExample">
 
@@ -222,8 +224,7 @@
                                                             <div class="form-group row mt-2">
                                                                 <label class="col-lg-3 col-form-label form-control-label"></label>
                                                                 <div class="col-lg-9">
-                                                                    <input type="reset" class="btn btn-secondary" value="Cancel">
-                                                                    <button class="btn btn-success active" type="submit">Save Changes</button>
+<button class="btn btn-secondary" type="reset">Cancel</button>                                                                    <button class="btn btn-success active" type="submit">Save Changes</button>
                                                                 </div>
                                                             </div>
                                                         </div>

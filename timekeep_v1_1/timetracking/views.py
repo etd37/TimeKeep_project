@@ -15,9 +15,6 @@ from dateutil.relativedelta import relativedelta
 from summary.utilities import get_time_for_user_and_month
 
 
-def home1(request):
-    return render(request, 'home.html')
-
 
 def home(request):
     if request.user.is_authenticated:

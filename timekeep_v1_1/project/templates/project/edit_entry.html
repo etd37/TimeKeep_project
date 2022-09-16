@@ -1,66 +1,94 @@
 {% extends 'base.html' %}
 
-{% block title %} Edit Entry | {% endblock %}
+{% block title %}{{ team.title }} | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
-        </div>
+    </div>
 
-<div class="row">
-    <h1>Edit Project</h1>
-    <div class="col-md-8">
-        <form method="post" action=".">
+    <div class="list-group list-group-flush scrollarea">
+<div class="container my-5">
+    <div class="row p-4 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-5 p-3 p-lg-5 pt-lg-2">
+                    <h4 class="display-6 fw-semibold lh-1">Edit entry ({{ project.title }})</h4>
+
+      <div class="col mt-5">
+<form method="post" action=".">
         {% csrf_token %}
-    <div class="row">
-        <div class="control">
-            <div class="select">
-                <select name="hours">
-                    <option value="0" {% if hours == 0 %} selected {% endif %}>0h</option>
-                    {% for i in "x"|rjust:"10" %}
-                        <option value="{{ forloop.counter }}" {% if hours == forloop.counter %} selected {% endif %}>{{ forloop.counter }}h</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
 
-        <div class="control">
-            <div class="select">
-                <select name="minutes">
-                    <option value="0" {% if minutes == 0 %} selected {% endif %}>0m</option>
+    <div class="row mt-3">
+
+
+                        <div class="col">
+                            <label class="fw-semibold">Hours</label>
+        <div class="form-group mt-1">
+            <select class="form-control" name="hours">
+<option value="0">0h</option>
+                    {% for i in "x"|rjust:"23" %}
+                        <option value="{{ forloop.counter }}"{% if hours == forloop.counter %} selected{% endif %}>{{ forloop.counter }}h</option>
+                    {% endfor %}
+            </select>
+        </div>
+    </div>
+
+        <div class="col">
+            <label class="fw-semibold">Minutes</label>
+        <div class="form-group mt-1">
+            <select class="form-control" name="minutes">
+                    <option value="0">0m</option>
                     {% for i in "x"|rjust:"59" %}
-                        <option value="{{ forloop.counter }}" {% if minutes == forloop.counter %} selected {% endif %}>{{ forloop.counter }}m</option>
+                        <option value="{{ forloop.counter }}"{% if minutes == forloop.counter %} selected{% endif %}>{{ forloop.counter }}m</option>
                     {% endfor %}
-                </select>
-            </div>
+            </select>
         </div>
     </div>
 
-    <div class="field">
-        <label>Date</label>
 
-        <div class="control">
-            <input type="date" id="id_date" name="date" class="input" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
+
+
+
+
+
+
+    </div>
+
+    <div class="field mt-3">
+        <label class="fw-semibold">Date</label>
+
+        <div class="control mt-1">
+            <input type="date" id="id_date" class="input form-control" name="date" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
         </div>
     </div>
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-success">Submit</button>
-            </div>
-        </div>
-    </form>
-    </div>
-    <div class="col-6 col-md-4">
 
+       <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                                                            <div class="form-group row mt-3">
+                                                                <div class="col-lg-12">
+                                                                   <button class="btn btn-success active" type="submit">Save Changes</button>
+                                                                </div>
+                                                            </div>
+        </div>
+        </form>
+      </div>
+        </div>
+      <div class="col-lg-5 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-3" src="https://thumbs.dreamstime.com/b/stopwatch-timekeeper-hand-man-207832275.jpg" alt="" width="720">
+      </div>
     </div>
-</div>
-</div>
-          </div>
+  </div>
+    </div>    </div>
+{% endblock %}
+
+{% block scripts %}
+
+
 {% endblock %}

@@ -137,7 +137,7 @@ def add_entry(request, entry_id):
 
             messages.info(request, 'The time was tracked')
 
-            return redirect('project:projects')
+            return redirect('home')
         else:
             messages.error(request, '"Project" can not be empty! Choose a project.')
 

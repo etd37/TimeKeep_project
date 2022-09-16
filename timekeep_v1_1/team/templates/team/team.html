@@ -99,7 +99,7 @@
                                 {% for member in team.members.all %}
                                     <li class="list-group-item">
                                         <div class="list-details">
-                                            <span>{{ member.username }}</span>
+                                            <span><a href="{% url 'summary:view_user' member.id %}">{{ member.username }}</a></span>
 
                                         </div>
                                     </li>

@@ -3,33 +3,30 @@
 {% block title %}{{ team.title }} | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-        <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
-          <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
-        </a>
-        <div class="list-group list-group-flush border-bottom scrollarea">
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'account' %}">My account</a></li>
-        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</a></li>
-    </ol>
-</nav>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-<div class="row">
-    <h1>{{ project.title }}</h1>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
-    <hr>
+    </div>
 
+    <div class="list-group list-group-flush scrollarea">
+<div class="container my-5">
+    <div class="row p-4 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-5 p-3 p-lg-5 pt-lg-2">
+                    <h4 class="display-6 fw-semibold lh-1">Register tracked time</h4>
 
-
-    <h2>Register time</h2>
-
-    <form method="post" action=".">
+      <div class="col mt-5">
+<form method="post" action=".">
         {% csrf_token %}
                     <div class="col">
-        <div class="form-group">
+                        <label class="fw-semibold">Project name</label>
+        <div class="form-group mt-1">
             <select class="form-control" name="project" v-model="project">
 <option value="">Choose project</option>
                     {% for project in projects %}
@@ -38,11 +35,12 @@
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-3">
 
 
                         <div class="col">
-        <div class="form-group">
+                            <label class="fw-semibold">Hours</label>
+        <div class="form-group mt-1">
             <select class="form-control" name="hours">
 <option value="0">0h</option>
                     {% for i in "x"|rjust:"23" %}
@@ -53,7 +51,8 @@
     </div>
 
         <div class="col">
-        <div class="form-group">
+            <label class="fw-semibold">Minutes</label>
+        <div class="form-group mt-1">
             <select class="form-control" name="minutes">
                     <option value="0">0m</option>
                     {% for i in "x"|rjust:"59" %}
@@ -72,24 +71,31 @@
 
     </div>
 
-    <div class="field">
-        <label>Date</label>
+    <div class="field mt-3">
+        <label class="fw-semibold">Date</label>
 
-        <div class="control">
+        <div class="control mt-1">
             <input type="date" id="id_date" class="input form-control" name="date" value="{{ entry.created_at|date:'Y-m-d' }}" placeholder="yyyy-mm-dd">
         </div>
     </div>
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-success">Submit</button>
-            </div>
-        </div>
-    </form>
-</div>
-</div>
-          </div>
 
+       <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                                                            <div class="form-group row mt-3">
+                                                                <div class="col-lg-12">
+                                                                   <button class="btn btn-success active" type="submit">Save Changes</button>
+                                                                </div>
+                                                            </div>
+        </div>
+        </form>
+      </div>
+        </div>
+      <div class="col-lg-5 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-3" src="https://thumbs.dreamstime.com/b/stopwatch-timekeeper-hand-man-207832275.jpg" alt="" width="720">
+      </div>
+    </div>
+  </div>
+    </div>    </div>
 {% endblock %}
 
 {% block scripts %}
