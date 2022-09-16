@@ -1,7 +1,7 @@
 # TimeKeep
 ![Screenshot from 2022-09-17 02-09-12](https://user-images.githubusercontent.com/99011743/190829038-b1dce0ae-adcb-47de-9599-1b0c685de4c9.png)
 
-TimeKeep is a web-application, which helps to track your working time.
+TimeKeep is a web-application, which helps you to track your working time.
 
 ## Installation
 
