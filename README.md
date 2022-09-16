@@ -46,9 +46,10 @@ through your browser or by clicking on the link through your terminal.
 
 and define those values:
 
-![Screenshot from 2022-09-17 01-49-02](https://user-images.githubusercontent.com/99011743/190827642-3ce17947-8b8c-4089-9895-2ce009bf4541.png)
+![Screenshot from 2022-09-17 02-14-20](https://user-images.githubusercontent.com/99011743/190829471-70993f6b-6bc3-4c16-b13f-678f3b13c590.png)
 
 Then you need save changes and logout.
+
 ![Screenshot from 2022-09-17 01-59-13](https://user-images.githubusercontent.com/99011743/190828674-527df2b8-b543-4c90-a8ee-9e37ddd69d9c.png)
 
 3. Now, go back to the
