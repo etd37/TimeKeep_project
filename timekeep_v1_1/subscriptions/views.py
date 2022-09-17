@@ -1,11 +1,12 @@
 import stripe
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.http.response import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from subscriptions.models import StripeCustomer
+from team.models import Team, Plan
 
 
 # Create your views here.
@@ -61,13 +62,14 @@ def create_checkout_session(request):
         except Exception as e:
             return JsonResponse({'error': str(e)})
 
-
-
+@login_required
 def success(request):
+    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id)
+    team.plan = Plan.objects.get(title='Pro')
+    team.save()
     return render(request, 'success.html')
 
-
-
+@login_required
 def cancel(request):
     return render(request, 'cancel.html')
 
@@ -100,13 +102,14 @@ def stripe_webhook(request):
         stripe_customer_id = session.get('customer')
         stripe_subscription_id = session.get('subscription')
 
-        # Get the user and create a new StripeCustomer
+        # Get the user and create a new StripeCustomer, Change Plan
         user = User.objects.get(id=client_reference_id)
         StripeCustomer.objects.create(
             user=user,
             stripeCustomerId=stripe_customer_id,
             stripeSubscriptionId=stripe_subscription_id,
         )
+
         print(user.username + ' just subscribed.')
 
     return HttpResponse(status=200)
