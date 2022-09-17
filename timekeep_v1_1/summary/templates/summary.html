@@ -220,7 +220,21 @@
                                     </div>
                                     <div class="col-md-3 float-right">
                                         {% if active_team %}
-                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addProjModal">Add project</button>
+                                            {% if team.plan.max_projects_per_team > team.projects.count %}
+                                                    <button type="button"
+                                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                                            data-bs-toggle="modal" data-bs-target="#addProjModal">Add
+                                                        project
+                                                    </button>
+                                                {% else %}
+                                                    <div class="notification is-warning">
+                                                        {% if team.created_by == request.user %}
+                                                            <a href="{% url 'team:plans' %}">Upgrade plan</a>
+                                                        {% else %}
+                                                            Contact your team owner to upgrade your subscription.
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
                                         {% else %}
                                         <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team first</button>
                                         {% endif %}
