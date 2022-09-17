@@ -66,6 +66,7 @@ def create_checkout_session(request):
 def success(request):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id)
     team.plan = Plan.objects.get(title='Pro')
+
     team.save()
     return render(request, 'success.html')
 

@@ -16,19 +16,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      {% if subscription.status == "active" %}
-        <h4>Your subscription:</h4>
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">
-              {{ product.description }}
-            </p>
-          </div>
-        </div>
-      {% else %}
         <button type="submit" class="btn btn-primary" id="submitBtn">Subscribe</button>
-      {% endif %}
     </div>
   </body>
 </html>

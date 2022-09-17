@@ -144,7 +144,7 @@ def delete_entry(request, project_id, entry_id):
     messages.info(request, 'Entry was deleted!')
 
     return redirect('project:project', project_id=project.id)
-    # return redirect(request.META['HTTP_REFERER'])
+
 
 
 @login_required
