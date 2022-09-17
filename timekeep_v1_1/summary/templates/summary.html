@@ -31,13 +31,6 @@
                             <div class="card-body">
 
                                 <h3 class="card-title">{{ active_team.title }}</h3>
-                                <!--            <ul class="list-unstyled mt-3 mb-4">-->
-                                <!--              <li>10 users included</li>-->
-                                <!--              <li>2 GB of storage</li>-->
-                                <!--              <li>Email support</li>-->
-                                <!--              <li>Help center access</li>-->
-                                <!--            </ul>-->
-
                                 <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
                                 <div class="d-flex flex-column align-items-center text-center">
 
@@ -230,7 +223,7 @@
 
                                                         {% if team.created_by == request.user %}
                                                         <button type="button"
-                                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                                            class="btn btn-warning px-4 me-md-2 w-100 fw-semibold"
                                                             onclick="location.href='{% url 'team:plans' %}'">Upgrade plan
                                                     </button>
 

@@ -15,7 +15,7 @@ def projects(request):
     projects = team.projects.all()
 
     if request.method == 'POST':
-        title = request.POST.get('title')
+        title = request.POST.get('add-proj')
 
         if title:
             project = Project.objects.create(team=team, title=title, created_by=request.user)
