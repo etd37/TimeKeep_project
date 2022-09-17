@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ team.title }} | {% endblock %}
+{% block title %}Add entry | {% endblock %}
 
 {% block content %}
 <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
@@ -9,9 +9,8 @@
             <use xlink:href="#clock"/>
         </svg>
 
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold "><a href="{% url 'project:projects' %}">Projects</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a class="active">Add entry</a></span>
 
     </div>
 

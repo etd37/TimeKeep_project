@@ -11,9 +11,8 @@
             <use xlink:href="#clock"/>
         </svg>
 
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-        <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+
+        <span class="fs-5 fw-semibold "><a class="active">My account</a></span>
 
     </div>
 
@@ -146,7 +145,7 @@
                                                 <h6 class="mb-0">Plan</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                (Placeholder)
+                                                {{ active_team.plan.title }}
                                             </div>
                                         </div>
                                         <hr>

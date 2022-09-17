@@ -13,7 +13,7 @@
 <script src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.css" integrity="sha512-+VDbDxc9zesADd49pfvz7CgsOl2xREI/7gnzcdyA9XjuTxLXrdpuz21VVIqc5HPfZji2CypSbxx1lgD7BgBK5g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js" integrity="sha512-ZK6m9vADamSl5fxBPtXw6ho6A4TuX89HUbcfvxa2v2NYNT/7l8yFGJ3JlXyMN4hlNbz0il4k6DvqbIW5CCwqkw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
 
     <link href="{% static 'css/test3.css' %}" rel="stylesheet">
@@ -406,6 +406,8 @@
         </div>
     </div>
 
+
+
     {% block content %}
 
 
@@ -530,28 +532,6 @@
     setTimeout(function(){
     message_ele.style.display = "none";
     }, 2000);
-
-</script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    config={
-        enableTime: true,
-        noCalendar: true,
-        dateFormat: "H:i",
-        time_24hr: true,
-        defaultDate: "00:00"
-    }
-    flatpickr("#time", config);
-
-</script>
-
-<script>
-    config={
-        altInput: true,
-        altFormat: "F j, Y",
-        dateFormat: "Y-m-d",
-    }
-    flatpickr("input[type=date]", config);
 
 </script>
 

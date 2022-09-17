@@ -23,7 +23,6 @@ def projects(request):
 
             return redirect('project:projects')
 
-    project_team_id = Team.objects.filter(members=request.user).values_list('id', flat=True)
 
     for x in project_team_id:
         projects_for_teams = Project.objects.filter(team_id=x)
@@ -32,21 +31,32 @@ def projects(request):
     return render(request, 'project/projects.html', {'team': team, 'projects': projects, 'project_team_id':project_team_id, 'projects_for_teams':projects_for_teams, 'teams':teams,})
 
 
-@login_required(login_url='/accounts/login/')
+@login_required
 def project(request, project_id):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
     project = get_object_or_404(Project, team=team, pk=project_id)
 
     if request.method == 'POST':
-        time = request.POST.get('time', 0)
-        h, m = time.split(':')
-        hours = int(request.POST.get('hours', 0))
-        minutes = int(request.POST.get('minutes', 0))
-        date = '%s %s' % (request.POST.get('date'), datetime.now().time())
-        minutes_total = int(h) * 60 + int(m)
+        form_type = request.POST.get('type', None)
+        if form_type == 'edit_projct':
+            title = request.POST.get('edit_proj')
 
-        entry = Entry.objects.create(team=team, project=project, minutes=minutes_total, created_by=request.user, created_at=date, is_tracked=True)
+            if title:
+                project.title = title
+                project.save()
 
+                messages.info(request, 'The changes was saved!')
+
+                return redirect('project:project', project_id=project.id)
+
+        if form_type == 'add_time':
+            hours = int(request.POST.get('hours', 0))
+            minutes = int(request.POST.get('minutes', 0))
+            date = '%s %s' % (request.POST.get('date'), datetime.now().time())
+            minutes_total = int(hours) * 60 + int(minutes)
+
+            entry = Entry.objects.create(team=team, project=project, minutes=minutes_total, created_by=request.user, created_at=date, is_tracked=True)
+            return redirect('project:project', project_id=project.id)
     return render(request, 'project/project.html', {'today': datetime.today(), 'team': team, 'project': project})
 
 @login_required

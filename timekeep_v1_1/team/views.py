@@ -57,6 +57,15 @@ def team(request, team_id):
 
             return redirect('team:team', team_id=team.id)
 
+        title = request.POST.get('edit_team')
+        if title:
+            team.title = title
+            team.save()
+
+            messages.info(request, 'The changes was saved')
+
+            return redirect('team:team', team_id=team.id)
+
     context = {
         'team': team,
         'invitations': invitations,

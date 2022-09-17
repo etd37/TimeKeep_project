@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
+{% block title %}Plans | {{ team.title }} | {% endblock %}
+
 {% block content %}
       <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold "><a href="{% url 'team:teams' %}">Teams</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="{% url 'team:team' active_team.id %}">{{ active_team.title }}</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a class="active">Plans</a></span>
 
-        </div>
+    </div>
 
-        <div class="list-group list-group-flush scrollarea">
+                <div class="list-group list-group-flush scrollarea">
 
 <br>
 <div class="container">

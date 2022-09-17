@@ -2,43 +2,36 @@
 
 {% load format_min %}
 
-{% block title %}Summary | {% endblock %}
+{% block title %}Teams | {% endblock %}
 
 {% block content %}
 <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
-    <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
         <svg class="bi pe-none me-2" width="30" height="24">
-            <use xlink:href="#bootstrap"/>
+            <use xlink:href="#clock"/>
         </svg>
 
-        <span class="fs-5 fw-semibold ">? Breadcrumbs here ?</span>
-    </a>
+
+        <span class="fs-5 fw-semibold "><a class="active">Teams</a></span>
+
+    </div>
     <div class="list-group list-group-flush scrollarea">
         <div class="container">
             <div class="main-body">
 
-                <!-- Breadcrumb -->
-                <br>
-                <!-- /Breadcrumb -->
-
-                <div class="row gutters-sm">
+                <div class="row gutters-sm mt-4">
                     <div class="col-md-4 mb-3">
                                                 <div class="card">
 
                             {% if active_team %}
-                            <div class="card-header py-3">
+                            <div class="card-header py-2">
                                 <h4 class="my-0 fw-semibold">Active team</h4>
                             </div>
 
                             <div class="card-body">
 
                                 <h3 class="card-title">{{ active_team.title }}</h3>
-                                <!--            <ul class="list-unstyled mt-3 mb-4">-->
-                                <!--              <li>10 users included</li>-->
-                                <!--              <li>2 GB of storage</li>-->
-                                <!--              <li>Email support</li>-->
-                                <!--              <li>Help center access</li>-->
-                                <!--            </ul>-->
+
 
                                 <h4>{% if active_team.created_by == request.user %}(Owner){% else %}(Member){% endif %}</h4>
                                 <div class="d-flex flex-column align-items-center text-center">
@@ -64,7 +57,7 @@
 
 
                             {% else %}
-                            <div class="card-header py-3">
+                            <div class="card-header py-2">
                                 <h4 class="my-0 fw-semibold">No Teams yet</h4>
                             </div>
 
@@ -86,14 +79,14 @@
 
 
                         <div class="card mt-3">
-                            <div class="card-header py-3">
+                            <div class="card-header py-2">
                                 <h4 class="my-0 fw-normal">Pending invitations</h4>
                             </div>
                             <div class="card-body">
                                 {% for invitation in invitations %}
                                 <div class="col">
                                     <div class="card mb-4 rounded-3 shadow-sm">
-                                        <div class="card-header py-3">
+                                        <div class="card-header py-2">
                                             <h4 class="my-0 fw-normal">{{ invitation.team.title }}</h4>
                                         </div>
 
@@ -110,22 +103,45 @@
                         </div>
                         {% endif %}
                         <div class="card mt-3">
-                            <div class="card-header py-3">
-                                <h4 class="my-0 fw-normal">Card header</h4>
+                            <div class="card-header py-2">
+                                <h4 class="my-0 fw-semibold">Current plan</h4>
+                            </div>
+<div class="card-body">
+                                <ul class="list-group shadow-none">
+                                    <li class="list-group-item">
+                                        <div class="list-icon">
+
+                                        </div>
+                                        <div class="list-details text-center">
+                                            <span class="fw-semibold">{{ active_team.plan.title }}</span>
+                                            <small></small>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span><b>Maximum projects per team:</b> {{ active_team.plan.max_projects_per_team }}</span>
+
+                                        </div>
+                                    </li>
+
+                                                                        <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span><b>Maximum members per team:</b> {{ active_team.plan.max_members_per_team }}</span>
+
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item">
+                                        <div class="list-details">
+                                            <span><b>Price:</b> {% if not active_team.plan.is_default %}{{ active_team.plan.price }}{% else %}Free{% endif %}</span>
+                                        </div>
+                                    </li>
+                                </ul>
+
                             </div>
 
-                            <div class="card-body">
-                                <h1 class="card-title">Card Title</h1>
-                                <ul class="list-unstyled mt-3 mb-4">
-                                    <li>10 users included</li>
-                                    <li>2 GB of storage</li>
-                                    <li>Email support</li>
-                                    <li>Help center access</li>
-                                </ul>
-                                <p>Text</p>
-                                <button type="button" class="btn btn-outline-primary" onclick="location.href='#'">Button</button>
-                                <hr>
-                            </div>
+
 
 
                         </div>
@@ -134,7 +150,7 @@
                     </div>
                     <div class="col-md-8">
                         <div class="card mb-3">
-                            <div class="card-header py-3 container-fluid">
+                            <div class="card-header py-2 container-fluid">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <h4 class="w-75 my-0 fw-normal">My Teams</h4>
@@ -152,7 +168,7 @@
 
             <div class="col">
             <div class="card border-primary mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
+              <div class="card-header py-2">
                 <h4 class="my-0 fw-normal">{{ active_team.title }}</h4>
               </div>
 
@@ -171,7 +187,7 @@
                                     {% for team in teams.all %}
             <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
-              <div class="card-header py-3">
+              <div class="card-header py-2">
                 <h4 class="my-0 fw-normal">{{ team.title }}</h4>
               </div>
 
