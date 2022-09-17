@@ -163,13 +163,19 @@
                                                         project
                                                     </button>
                                                 {% else %}
-                                                    <div class="notification is-warning">
+
                                                         {% if team.created_by == request.user %}
-                                                            <a href="{% url 'team:plans' %}">Upgrade plan</a>
+                                                            <button type="button"
+                                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                                            onclick="location.href='{% url 'team:plans' %}'">Upgrade plan
+                                                    </button>
+
                                                         {% else %}
-                                                            Contact your team owner to upgrade your subscription.
+                                                            <button type="button"
+                                                            class="btn btn-outline-secondary px-4 me-md-2 w-100 fw-semibold" disabled>Contact team owner to upgrade subscription.
+                                                    </button>
                                                         {% endif %}
-                                                    </div>
+
                                                 {% endif %}
                                         {% else %}
                                         <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team first</button>

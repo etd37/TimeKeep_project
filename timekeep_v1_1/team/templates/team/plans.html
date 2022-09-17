@@ -3,7 +3,7 @@
 {% block title %}Plans | {{ team.title }} | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
     <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
         <svg class="bi pe-none me-2" width="30" height="24">
             <use xlink:href="#clock"/>
@@ -15,57 +15,62 @@
 
     </div>
 
-                <div class="list-group list-group-flush scrollarea">
+    <div class="list-group list-group-flush scrollarea">
 
-<br>
-<div class="container">
-<div class="row">
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">Pricing</h1>
-      <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-</div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                    <h1 class="display-4">Pricing</h1>
+                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua.</p>
+                </div>
 
-<div class="container-sm">
-<div class="row">
-  <div class="col-sm-3">
-    <div class="card sm-3 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Free</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">Free</h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Up to 5 projects per team</li>
-              <li>1 team members</li>
+                <div class="container-sm">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card sm-6 box-shadow">
+                                <div class="card-header">
+                                    <h4 class="my-0 font-weight-normal">Free</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">Free</h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li>Up to 5 projects per team</li>
+                                        <li>1 team members</li>
 
-              <li>Best for personal use</li>
-                <br>
-                <br>
-            </ul>
-          </div>
-        </div>
-  </div>
-  <div class="col-sm-3">
-    <div class="card sm-3 box-shadow">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Pro</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">$10 <small class="text-muted">/ mo</small></h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Up to 100 projects per team</li>
-              <li>Up to 100 team members</li>
-              <li>Unlimited(Almost)</li>
-            </ul>
-            <button type="button" class="btn btn-lg btn-block btn-primary" onclick="location.href='{% url 'subscriptions' %}'">Subscribe</button>
-          </div>
-        </div>
-  </div>
+                                        <li>Best for personal use</li>
+                                        <br>
+                                        <br>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card sm-6 box-shadow">
+                                <div class="card-header">
+                                    <h4 class="my-0 font-weight-normal">Pro</h4>
+                                </div>
+                                <div class="card-body">
+                                    <h1 class="card-title pricing-card-title">$10 <small class="text-muted">/ mo</small>
+                                    </h1>
+                                    <ul class="list-unstyled mt-3 mb-4">
+                                        <li>Up to 100 projects per team</li>
+                                        <li>Up to 100 team members</li>
+                                        <li>Unlimited(Almost)</li>
+                                    </ul>
+                                    <button type="button" class="btn btn-lg btn-block btn-primary"
+                                            onclick="location.href='{% url 'subscriptions' %}'">Subscribe
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
 
 
-</div>
-        </div>
-</div>
+                    </div>
+                </div>
             </div>
-          </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

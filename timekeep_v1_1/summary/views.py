@@ -1,20 +1,19 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from project.models import Entry
-from team.models import Team, Invitation
-from project.models import Project
 import calendar
-from datetime import datetime, timedelta, timezone, date
+from datetime import datetime, timedelta, timezone
+
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
-
-
+from project.models import Entry
+from project.models import Project
+from team.models import Team, Invitation
 from .utilities import get_time_for_user_and_date, \
     get_time_for_team_and_month, \
     get_time_for_user_and_month, \
     get_time_for_user_and_project_and_month, \
     get_time_for_user_and_team_month
+
 
 # Create your views here.
 
@@ -53,20 +52,21 @@ def summary(request):
     user_month = datetime.now() - relativedelta(months=user_num_months)
 
     for project in all_projects:
-        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project, request.user, user_month)
+        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project,
+                                                                                              request.user, user_month)
 
     team_num_months = int(request.GET.get('team_num_months', 0))
     team_month = datetime.now() - relativedelta(months=team_num_months)
 
-
-
     for member in members:
         member.time_for_user_and_team_month = get_time_for_user_and_team_month(team, member, team_month)
 
-    untracked_entries = Entry.objects.filter(team=team, created_by=request.user, is_tracked=False).order_by('-created_at')
+    untracked_entries = Entry.objects.filter(team=team, created_by=request.user, is_tracked=False).order_by(
+        '-created_at')
 
     for untracked_entry in untracked_entries:
-        untracked_entry.minutes_since = int((datetime.now(timezone.utc) - untracked_entry.created_at).total_seconds() / 60)
+        untracked_entry.minutes_since = int(
+            (datetime.now(timezone.utc) - untracked_entry.created_at).total_seconds() / 60)
 
     monthly_days_count = 0
     cal = calendar.Calendar()
@@ -80,9 +80,8 @@ def summary(request):
             monthly_days_count += 1
     monthly_hour_count = monthly_days_count * 8
     time_for_user_and_month = get_time_for_user_and_month(team, request.user, user_month)
-    avg_hours_per_day = round(float(time_for_user_and_month / 60) / float(monthly_days_count),2)
-    hour_percent = round(100 * float(time_for_user_and_month / 60)/float(monthly_hour_count))
-
+    avg_hours_per_day = round(float(time_for_user_and_month / 60) / float(monthly_days_count), 2)
+    hour_percent = round(100 * float(time_for_user_and_month / 60) / float(monthly_hour_count))
 
     context = {
         'team': team,
@@ -101,8 +100,8 @@ def summary(request):
         'time_for_team_and_month': get_time_for_team_and_month(team, team_month),
         'team_num_months': team_num_months,
         'team_month': team_month,
-        'monthly_days_count':monthly_days_count,
-        'monthly_hour_count':monthly_hour_count,
+        'monthly_days_count': monthly_days_count,
+        'monthly_hour_count': monthly_hour_count,
         'avg_hours_per_day': avg_hours_per_day,
         'hour_percent': hour_percent,
     }
@@ -122,6 +121,7 @@ def summary(request):
     if 'dashboard' in request.META['PATH_INFO']:
         return render(request, 'dashboard.html', context)
 
+
 @login_required
 def view_user(request, user_id):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
@@ -132,16 +132,16 @@ def view_user(request, user_id):
     date_user = datetime.now() - timedelta(days=num_days)
     date_entries = Entry.objects.filter(team=team, created_by=request.user, created_at__date=date_user, is_tracked=True)
 
-
     user_num_months = int(request.GET.get('user_num_months', 0))
     user_month = datetime.now() - relativedelta(months=user_num_months)
 
     for project in all_projects:
-        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project, request.user, user_month)
+        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project,
+                                                                                              request.user, user_month)
 
     context = {
         'team': team,
-        'user':user,
+        'user': user,
         'all_projects': all_projects,
         'date_entries': date_entries,
         'num_days': num_days,

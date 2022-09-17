@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from project.models import Entry
 
 def get_time_for_user_and_date(team, user, date):

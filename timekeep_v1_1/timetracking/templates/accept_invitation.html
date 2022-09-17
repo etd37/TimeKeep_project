@@ -1,39 +1,61 @@
 {% extends 'base.html' %}
 
-{% block title %}Accept invitation | {% endblock %}
+{% block title %}Accept invite | {% endblock %}
 
 {% block content %}
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{% url 'account' %}">My account</a></li>
-        <li class="breadcrumb-item active"><a href="{% url 'accept_invitation' %}">My account</a></li>
-    </ol>
-</nav>
+        <span class="fs-5 fw-semibold "><a class="active">Accept invite</a></span>
 
-<div class="columns">
-    <div class="row">
-        <h1>Accept Invitation</h1>
-        <form method="post" action=".">
-            {% csrf_token %}
-
-            <div class="field">
-                <label>Code (from e-mail)</label>
-
-                <div class="control">
-                    <input type="text" name="code" id="id_code" class="input">
-                </div>
-            </div>
-
-            <div class="field">
-                <div class="control">
-                    <button class="button is-success">Submit</button>
-                </div>
-            </div>
-        </form>
     </div>
-</div>
+
+    <div class="list-group list-group-flush scrollarea">
+<div class="container my-5">
+    <div class="row p-4 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+        <div class="col-lg-5 p-3 p-lg-5 pt-lg-2">
+                    <h4 class="display-6 fw-semibold lh-1">Accept invite</h4>
+
+      <div class="col mt-5">
+<form method="post" action=".">
+        {% csrf_token %}
+
+
+
+    <div class="field mt-2">
+        <label class="fw-semibold">Code</label>
+
+        <div class="control mt-1">
+            <input type="text" class="input form-control" name="code" placeholder="Code from email">
+        </div>
+    </div>
+
+
+       <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                                                            <div class="form-group row mt-3">
+                                                                <div class="col-lg-12">
+                                                                   <button class="btn btn-success active" type="submit">Accept Invite</button>
+                                                                </div>
+                                                            </div>
+        </div>
+        </form>
+
+      </div>
+
+
+        </div>
+      <div class="col-lg-5 offset-lg-1 p-0 overflow-hidden shadow-lg">
+          <img class="rounded-lg-3" src="https://thumbs.dreamstime.com/b/stopwatch-timekeeper-hand-man-207832275.jpg" alt="" width="720">
+      </div>
+    </div>
+  </div>
+    </div>    </div>
+{% endblock %}
+
+{% block scripts %}
 
 
 {% endblock %}

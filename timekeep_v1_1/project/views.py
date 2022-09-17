@@ -23,12 +23,12 @@ def projects(request):
 
             return redirect('project:projects')
 
-
     for x in project_team_id:
         projects_for_teams = Project.objects.filter(team_id=x)
 
-
-    return render(request, 'project/projects.html', {'team': team, 'projects': projects, 'project_team_id':project_team_id, 'projects_for_teams':projects_for_teams, 'teams':teams,})
+    return render(request, 'project/projects.html',
+                  {'team': team, 'projects': projects, 'project_team_id': project_team_id,
+                   'projects_for_teams': projects_for_teams, 'teams': teams, })
 
 
 @login_required
@@ -55,43 +55,14 @@ def project(request, project_id):
             date = '%s %s' % (request.POST.get('date'), datetime.now().time())
             minutes_total = int(hours) * 60 + int(minutes)
 
-            entry = Entry.objects.create(team=team, project=project, minutes=minutes_total, created_by=request.user, created_at=date, is_tracked=True)
+            entry = Entry.objects.create(team=team, project=project, minutes=minutes_total, created_by=request.user,
+                                         created_at=date, is_tracked=True)
             return redirect('project:project', project_id=project.id)
     return render(request, 'project/project.html', {'today': datetime.today(), 'team': team, 'project': project})
 
-@login_required
-def add(request):
-    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
-    if request.method == 'POST':
-        title = request.POST.get('title')
-
-        if title:
-            project = Project.objects.create(team=team, title=title, created_by=request.user)
-            project.save()
 
 
-            return redirect('project:projects')
 
-    return render(request, 'project/add.html')
-
-
-@login_required
-def edit(request, project_id):
-    team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
-    project = get_object_or_404(Project, team=team, pk=project_id)
-
-    if request.method == 'POST':
-        title = request.POST.get('title')
-
-        if title:
-            project.title = title
-            project.save()
-
-            messages.info(request, 'The changes was saved!')
-
-            return redirect('project:project', project_id=project.id)
-
-    return render(request, 'project/edit.html', {'team': team, 'project': project})
 
 @login_required
 def edit_entry(request, project_id, entry_id):
@@ -137,7 +108,6 @@ def add_entry(request, entry_id):
         minutes = int(request.POST.get('minutes', 0))
         project = request.POST.get('project')
 
-
         if project:
             entry.project_id = project
             entry.minutes = (hours * 60) + minutes
@@ -163,6 +133,7 @@ def add_entry(request, entry_id):
 
     return render(request, 'project/add_entry.html', context)
 
+
 @login_required
 def delete_entry(request, project_id, entry_id):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
@@ -175,6 +146,7 @@ def delete_entry(request, project_id, entry_id):
     return redirect('project:project', project_id=project.id)
     # return redirect(request.META['HTTP_REFERER'])
 
+
 @login_required
 def delete_untracked_entry(request, entry_id):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
@@ -185,17 +157,4 @@ def delete_untracked_entry(request, entry_id):
     messages.info(request, 'Entry was deleted!')
 
     return redirect(request.META['HTTP_REFERER'])
-@login_required
-def modal(request):
-        team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
-        if request.method == 'POST':
-            title = request.POST.get('title')
 
-            if title:
-                project = Project.objects.create(team=team, title=title, created_by=request.user)
-                project.save()
-
-                return redirect('project:projects')
-
-        else:
-            return render(request, 'project/modal.html')

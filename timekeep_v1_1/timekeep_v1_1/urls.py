@@ -21,13 +21,10 @@ from timetracking.timer import start_timer, stop_timer, discard_timer
 from timetracking.views import (
     home,
     shop,
-    account,
     acc,
-    edit_profile,
-    change_password,
     logout_request,
     accept_invitation,
-    summary,
+
 
 )
 

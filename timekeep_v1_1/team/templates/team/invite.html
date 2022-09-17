@@ -1,94 +1,93 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ team.title }} | {% endblock %}
+{% block title %}Invite | {{ team.title }} | {% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
-        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-            <svg class="bi pe-none me-2" width="30" height="24">
-                <use xlink:href="#clock"/>
-            </svg>
+<div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 94vh">
+    <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24">
+            <use xlink:href="#clock"/>
+        </svg>
 
-            <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-            <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-            <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+        <span class="fs-5 fw-semibold "><a href="{% url 'team:teams' %}">Teams</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a href="{% url 'team:team' team.id %}">{{ team.title }}</a> /&nbsp;</span>
+        <span class="fs-5 fw-semibold "><a class="active">Invite</a></span>
 
-        </div>
+    </div>
 
-        <div class="row">
-            <div class="columns is-multiline" id="invite-app">
-                <h1>Invite Member</h1>
-                <div class="notification is-danger" v-if="errors.length">
-                    <p v-for="error in errors">[[ error ]]</p>
-                </div>
+    <div class="list-group list-group-flush scrollarea">
+        <div class="container my-5">
+            <div class="row p-4 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+                <div class="col-lg-5 p-3 p-lg-5 pt-lg-2">
+                    <h4 class="display-6 fw-semibold lh-1">Invite to {{ team.title }}</h4>
 
-                {% if team.plan.max_members_per_team > team.members.count %}
-                    <form method="post" action="." @submit="validateForm" novalite>
-                        {% csrf_token %}
+                    <div class="col mt-5">
+                        {% if team.plan.max_members_per_team > team.members.count %}
+                        <form method="post" action=".">
+                            {% csrf_token %}
 
-                        <div class="field">
-                            <label>E-mail</label>
 
-                            <div class="control">
-                                <input type="email" name="email" id="id_email" v-model="email" class="input">
+                            <div class="field mt-2">
+                                <label class="fw-semibold">Email</label>
+
+                                <div class="control mt-1">
+                                    <input type="email" class="input form-control" name="email"
+                                           placeholder="example@example.com">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="field">
-                            <div class="control">
-                                <button class="button is-success">Send invitation</button>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                                <div class="form-group row mt-3">
+                                    <div class="col-lg-12">
+                                        <button class="btn btn-success active" type="submit">Send Invite</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                {% else %}
-                    <div class="notification is-warning">
-                        This team has reached the limit of members.<br>
-
-                        {% if team.created_by == request.user %}
-                            <a href="{% url 'team:plans' %}">Upgrade plan</a>
+                        </form>
                         {% else %}
-                            Contact your team owner...
-                        {% endif %}
+                        <div class="field mt-2">
+
+
+                            This team has reached the limit of members.
+                        </div>
+
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                            <div class="form-group row mt-3">
+                                <div class="col-lg-12">
+                                    {% if team.created_by == request.user %}
+                                    <button type="button"
+                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                            onclick="location.href='{% url 'team:plans' %}'">Upgrade plan
+                                    </button>
+                                    {% else %}
+                                    <button type="button"
+                                            class="btn btn-outline-secondary px-4 me-md-2 w-100 fw-semibold" disabled>
+                                        Contact team
+                                        owner to upgrade subscription.
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endif %}{% endif %}
                     </div>
-                {% endif %}
+
+
+                </div>
+                <div class="col-lg-5 offset-lg-1 p-0 overflow-hidden shadow-lg">
+                    <img class="rounded-lg-3"
+                         src="https://thumbs.dreamstime.com/b/stopwatch-timekeeper-hand-man-207832275.jpg" alt=""
+                         width="720">
+                </div>
             </div>
         </div>
     </div>
-    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        const InviteApp = {
-            data() {
-                return {
-                    email: '',
-                    errors: []
-                }
-            },
-            delimiters: ['[[', ']]'],
-            methods: {
-                validateForm(e) {
-                    if (this.validateEmail(this.email)) {
-                        return true
-                    }
 
-                    this.errors = ['The e-mail is not valid']
 
-                    e.preventDefault()
-
-                    return false
-                },
-                validateEmail(email) {
-                    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-                        return true
-                    }
-
-                    return false
-                }
-            }
-        }
-
-        Vue.createApp(InviteApp).mount('#invite-app')
-    </script>
 {% endblock %}

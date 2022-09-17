@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
+
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from project.models import Project, Entry
-from team.models import Team
+
+from project.models import Entry
 
 
 def start_timer(request):

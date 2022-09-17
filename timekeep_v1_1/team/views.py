@@ -1,20 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
-from django.contrib import messages
 import random
-from datetime import datetime, timedelta, timezone, date
+from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Team, Invitation
 from project.models import Project
-from .mail import send_invitation, send_invitation_accepted
-from summary.utilities import get_time_for_user_and_date, \
-    get_time_for_team_and_month, \
-    get_time_for_user_and_month, \
-    get_time_for_user_and_project_and_month, \
-    get_time_for_user_and_team_month
-
+from summary.utilities import get_time_for_user_and_project_and_month
+from .mail import send_invitation
+from .models import Team, Invitation
 
 
 @login_required
@@ -46,7 +41,8 @@ def team(request, team_id):
     user_month = datetime.now() - relativedelta(months=user_num_months)
 
     for project in all_projects:
-        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project, request.user, user_month)
+        project.time_for_user_and_project_and_month = get_time_for_user_and_project_and_month(team, project,
+                                                                                              request.user, user_month)
 
     if request.method == 'POST':
         title = request.POST.get('add_proj')
@@ -76,6 +72,7 @@ def team(request, team_id):
     }
 
     return render(request, 'team/team.html', context)
+
 
 @login_required
 def teams(request):
@@ -154,12 +151,12 @@ def invite(request):
 
     return render(request, 'team/invite.html', {'team': team})
 
+
 @login_required
 def plans(request):
     team = get_object_or_404(Team, pk=request.user.userprofile.active_team_id, status=Team.ACTIVE)
 
-
-    context= {
+    context = {
         'team': team,
 
     }
