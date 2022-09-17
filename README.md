@@ -56,7 +56,8 @@ http://localhost:8000
 
 ![Screenshot from 2022-09-17 05-00-06](https://user-images.githubusercontent.com/99011743/190838001-32ffb69d-0a59-4ecf-b344-7828c524ba16.png)
 
-####  Then you need save changes and logout.
+####  Then you need SAVE changes and LOGOUT.
+## NB!! DO NOT TRY TO ACCESS ANY PAGES WITH ADMIN ACCOUNT APART OF ADMIN PAGE !!!
 
 ![Screenshot from 2022-09-17 01-59-13](https://user-images.githubusercontent.com/99011743/190828674-527df2b8-b543-4c90-a8ee-9e37ddd69d9c.png)
 
