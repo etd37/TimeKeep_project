@@ -15,7 +15,7 @@ def projects(request):
     projects = team.projects.all()
 
     if request.method == 'POST':
-        title = request.POST.get('add-proj')
+        title = request.POST.get('add_proj')
 
         if title:
             project = Project.objects.create(team=team, title=title, created_by=request.user)
@@ -157,4 +157,3 @@ def delete_untracked_entry(request, entry_id):
     messages.info(request, 'Entry was deleted!')
 
     return redirect(request.META['HTTP_REFERER'])
-
