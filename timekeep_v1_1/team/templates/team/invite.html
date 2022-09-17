@@ -1,80 +1,94 @@
 {% extends 'base.html' %}
 
-{% block title %}Invite | {{ team.title }} | {% endblock %}
+{% block title %}{{ team.title }} | {% endblock %}
 
 {% block content %}
-      <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
-<div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
-          <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#clock"/></svg>
+    <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 83%; height: 93.3vh">
+        <div class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+            <svg class="bi pe-none me-2" width="30" height="24">
+                <use xlink:href="#clock"/>
+            </svg>
 
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
-          <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
+            <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 1</a> /&nbsp;</span>
+            <span class="fs-5 fw-semibold "><a href="#">Breadcrumb 2</a> /&nbsp;</span>
+            <span class="fs-5 fw-semibold "><a href="#" class="active">Breadcrumb 3</a></span>
 
         </div>
 
-    <div class="row">
-       <div class="columns is-multiline" id="invite-app">
-            <h1>Invite Member</h1>
-            <div class="notification is-danger" v-if="errors.length">
-                <p v-for="error in errors">[[ error ]]</p>
+        <div class="row">
+            <div class="columns is-multiline" id="invite-app">
+                <h1>Invite Member</h1>
+                <div class="notification is-danger" v-if="errors.length">
+                    <p v-for="error in errors">[[ error ]]</p>
+                </div>
+
+                {% if team.plan.max_members_per_team > team.members.count %}
+                    <form method="post" action="." @submit="validateForm" novalite>
+                        {% csrf_token %}
+
+                        <div class="field">
+                            <label>E-mail</label>
+
+                            <div class="control">
+                                <input type="email" name="email" id="id_email" v-model="email" class="input">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-success">Send invitation</button>
+                            </div>
+                        </div>
+                    </form>
+                {% else %}
+                    <div class="notification is-warning">
+                        This team has reached the limit of members.<br>
+
+                        {% if team.created_by == request.user %}
+                            <a href="{% url 'team:plans' %}">Upgrade plan</a>
+                        {% else %}
+                            Contact your team owner...
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
-
-            <form method="post" action="." @submit="validateForm" novalite>
-                    {% csrf_token %}
-
-                    <div class="field">
-                        <label>E-mail</label>
-
-                        <div class="control">
-                            <input type="email" name="email" id="id_email" v-model="email" class="input">
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-success">Send invitation</button>
-                        </div>
-                    </div>
-            </form>
-       </div>
+        </div>
     </div>
-            </div>
-</div>
+    </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-    const InviteApp = {
-        data() {
-            return {
-                email: '',
-                errors: []
-            }
-        },
-        delimiters: ['[[', ']]'],
-        methods: {
-            validateForm(e) {
-                if (this.validateEmail(this.email)) {
-                    return true
+    <script>
+        const InviteApp = {
+            data() {
+                return {
+                    email: '',
+                    errors: []
                 }
-
-                this.errors = ['The e-mail is not valid']
-
-                e.preventDefault()
-
-                return false
             },
-            validateEmail(email) {
-                if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
-                    return true
-                }
+            delimiters: ['[[', ']]'],
+            methods: {
+                validateForm(e) {
+                    if (this.validateEmail(this.email)) {
+                        return true
+                    }
 
-                return false
+                    this.errors = ['The e-mail is not valid']
+
+                    e.preventDefault()
+
+                    return false
+                },
+                validateEmail(email) {
+                    if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)) {
+                        return true
+                    }
+
+                    return false
+                }
             }
         }
-    }
 
-    Vue.createApp(InviteApp).mount('#invite-app')
-</script>
+        Vue.createApp(InviteApp).mount('#invite-app')
+    </script>
 {% endblock %}
