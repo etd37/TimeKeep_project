@@ -79,7 +79,31 @@
                                         <h4 class="w-75 my-0 fw-semibold">{{ teamz.title }}'s projects</h4>
                                     </div>
                                     <div class="col-md-3 float-right">
+                                        {% if active_team %}
+                                            {% if team.plan.max_projects_per_team > team.projects.count %}
+                                                    <button type="button"
+                                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                                            data-bs-toggle="modal" data-bs-target="#addProjModal">Add
+                                                        project
+                                                    </button>
+                                                {% else %}
 
+                                                        {% if team.created_by == request.user %}
+                                                        <button type="button"
+                                                            class="btn btn-success px-4 me-md-2 w-100 fw-semibold"
+                                                            onclick="location.href='{% url 'team:plans' %}'">Upgrade plan
+                                                    </button>
+
+                                                        {% else %}
+                                                            <button type="button"
+                                                            class="btn btn-outline-secondary px-4 me-md-2 w-100 fw-semibold" disabled>Contact team owner to upgrade subscription.
+                                                    </button>
+                                                        {% endif %}
+
+                                            {% endif %}
+                                        {% else %}
+                                        <button type="button" class="btn btn-success px-4 me-md-2 w-100 fw-semibold" data-bs-toggle="modal" data-bs-target="#addTeamModal">Add team first</button>
+                                        {% endif %}
 
                                     </div>
                                 </div>
