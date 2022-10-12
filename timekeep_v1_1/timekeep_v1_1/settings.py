@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,8 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+# environment variables
+DJANGO_SECRET = os.getenv("DJANGO_SECRET")
+MAILJET_KEY = os.getenv("MAILJET_KEY")
+MAILJET_SECRET = os.getenv("MAILJET_SECRET")
+STRIPE_KEY = os.getenv("STRIPE_KEY")
+STRIPE_SECRET = os.getenv("STRIPE_SECRET")
+STRIPE_PRICE = os.getenv("STRIPE_PRICE")
+STRIPE_END = os.getenv("STRIPE_END")
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-yb890)80sfyy&^_0kca4_d3g%vu0td@jiedlzdawwi%&4g^7!%'
+SECRET_KEY = DJANGO_SECRET
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,8 +41,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
-MAILJET_API_KEY = '959b3fd68a5c225c4efc875ebc52da9a'
-MAILJET_API_SECRET = '2ef66a449918c3b8767a2882e0a425a5'
+MAILJET_API_KEY = MAILJET_KEY
+MAILJET_API_SECRET = MAILJET_SECRET
 DEFAULT_EMAIL_FROM = 'timekeep81@gmail.com'
 
 WEBSITE_URL = 'http://127.0.0.1:8000'
