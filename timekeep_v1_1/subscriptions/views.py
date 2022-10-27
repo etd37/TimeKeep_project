@@ -42,7 +42,7 @@ def stripe_config(request):
 @csrf_exempt
 def create_checkout_session(request):
     if request.method == 'GET':
-        domain_url = 'http://timekeepproject.com/'
+        domain_url = 'https://timekeepproject.com/teams/plans/subscriptions/:8080'
         stripe.api_key = settings.STRIPE_SECRET_KEY
         try:
             checkout_session = stripe.checkout.Session.create(
