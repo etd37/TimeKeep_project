@@ -38,7 +38,7 @@ SECRET_KEY = DJANGO_SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['octopus-app-5dd68.ondigitalocean.app']
 
 EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
 MAILJET_API_KEY = MAILJET_KEY
